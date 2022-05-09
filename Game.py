@@ -7,6 +7,7 @@ from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 class Game:
     def __init__(self):
+        print('init pygame')
         pg.init()
         pg.key.set_repeat(300,100)
         self.__screen = pg.display.set_mode([535, 645])

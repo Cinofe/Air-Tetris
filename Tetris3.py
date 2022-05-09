@@ -1,3 +1,4 @@
+print('import pygame')
 import pygame as pg, time as t
 from Game import Game
 ##------------------------------------------------------------------------------------------------##
