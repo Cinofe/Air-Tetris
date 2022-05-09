@@ -1,4 +1,3 @@
-from http.client import CONTINUE
 import pygame as pg, random as rd
 from Block import Block
 from Case import Case
@@ -7,11 +6,11 @@ from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 class Game:
     def __init__(self):
-        print('init pygame')
         pg.init()
         pg.key.set_repeat(300,100)
+        print('set key config')
         self.__screen = pg.display.set_mode([535, 645])
-
+        print('set screen')
         self.__Colors = {
             'BLACK':(0,0,0),
             'WHITE':(255,255,255),

@@ -1,4 +1,3 @@
-print('import pygame')
 import pygame as pg, time as t
 from Game import Game
 ##------------------------------------------------------------------------------------------------##
@@ -8,9 +7,11 @@ def start_Game():
     done = False
     start = t.time()
     while(not done):
+        print('run game')
         G = Game()
         retry = False
         while(not retry):
+            print('running game')
             # if t.time() - start >= 1:
             #     G.Move_Down()
             #     start = t.time()
