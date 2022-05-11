@@ -8,9 +8,7 @@ class Game:
     def __init__(self):
         pg.init()
         pg.key.set_repeat(300,100)
-        print('set key config')
         self.__screen = pg.display.set_mode([535, 645])
-        print('set screen')
         self.__Colors = {
             'BLACK':(0,0,0),
             'WHITE':(255,255,255),
