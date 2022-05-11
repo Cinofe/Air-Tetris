@@ -10,9 +10,9 @@ def start_Game():
         G = Game()
         retry = False
         while(not retry):
-            if t.time() - start >= 1:
-                G.Move_Down()
-                start = t.time()
+            # if t.time() - start >= 1:
+            #     G.Move_Down()
+            #     start = t.time()
             if G.GAME_OVER():
                 del G
                 retry = True

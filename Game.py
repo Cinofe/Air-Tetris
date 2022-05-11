@@ -228,34 +228,21 @@ class Game:
                 if x < 0 or x > 9 or y < 0 or y > 19:
                     return True
             return False
+
+        collisions = [(-1,0),(0,-1),(1,0),(1,0),(0,1)]
         
         cx, cy = self.__B_Case.getPos()
 
-        if (not collision()) and (not out()):
-            return
-        else:
-            self.__B_Case.setPos(cx-1, cy)
+        i = 0
+        while i != len(collisions):
+            x,y = collisions[i]
             if (not collision()) and (not out()):
                 return
-            else :
-                self.__B_Case.setPos(cx,cy-1)
-                if (not collision()) and (not out()):
-                    return
-                else:
-                    self.__B_Case.setPos(cx+1,cy)
-                    if (not collision()) and (not out()):
-                        return
-                    else:
-                        self.__B_Case.setPos(cx+1,cy)
-                        if (not collision()) and (not out()):
-                            return
-                        else:
-                            self.__B_Case.setPos(cx,cy+1)
-                            if (not collision()) and (not out()):
-                                return
-                            else:
-                                self.__B_Case.setPos(cx,cy)
-                                self.__B_Case.Re_Turn()
+            else:
+                self.__B_Case.setPos(cx+x, cy+y)
+                i += 1
+        self.__B_Case.setPos(cx, cy)
+        self.__B_Case.Re_Turn()
     ##---------------------------------------------------------------------------------------------##
     ## 회전시 맵 밖으로 나갔을때, 맵 안으로 넣어주는 동작
     ##---------------------------------------------------------------------------------------------##
@@ -264,21 +251,27 @@ class Game:
         cx, cy = self.__B_Case.getPos()
         # 블럭 좌표 불러오기
         temp_pos = self.__B_Case.getBlockPos()
+        def reset():
+            self.__B_Case.setPos(cx,cy)
+        
         for x, y in temp_pos:
             if x < 0 :
                 if self.__moveCollision(1):
                     self.Move_Right()
                 else:
+                    reset()
                     self.__B_Case.Re_Turn()
             elif x > 9:
                 if self.__moveCollision(0):
                     self.Move_Left()
                 else:
+                    reset()
                     self.__B_Case.Re_Turn()
             elif y < 0:
                 if self.__moveCollision(2):
                     self.Move_Down()
                 else:
+                    reset()
                     self.__B_Case.Re_Turn()
             elif y > 19:
                 self.__B_Case.setPos(cx,cy-1)
