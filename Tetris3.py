@@ -5,14 +5,20 @@ from Game import Game
 ##------------------------------------------------------------------------------------------------##
 def start_Game():
     done = False
-    start = t.time()
+    m_start = t.time()
+    u_start = t.time()
+    move_time = 1#2
+    up_block_time = 4#10
     while(not done):
         G = Game()
         retry = False
         while(not retry):
-            # if t.time() - start >= 1:
-            #     G.Move_Down()
-            #     start = t.time()
+            if t.time() - m_start >= move_time:
+                G.Move_Down()
+                m_start = t.time()
+            if t.time() - u_start >= up_block_time:
+                G.Line_Plus()
+                u_start = t.time()
             if G.GAME_OVER():
                 del G
                 retry = True
