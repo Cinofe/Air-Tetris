@@ -49,7 +49,7 @@ def start_Game():
 ##------------------------------------------------------------------------------------------------##
 ## client 통신
 ##------------------------------------------------------------------------------------------------##
-def Client():
+async def Client():
     global done
     try:    
         ClientSock = socket(AF_INET, SOCK_STREAM)
@@ -81,4 +81,4 @@ async def main():
     start_Game()
     
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
