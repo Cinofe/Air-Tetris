@@ -1,10 +1,12 @@
-import pygame as pg, time as t
+import pygame as pg, time as t, asyncio, cv2, numpy as np
+from socket import *
 from Game import Game
+done = False
 ##------------------------------------------------------------------------------------------------##
 ## 게임 시작 함수
 ##------------------------------------------------------------------------------------------------##
 def start_Game():
-    done = False
+    global done
     m_start = t.time()
     u_start = t.time()
     move_time = 1#2
@@ -45,9 +47,37 @@ def start_Game():
                         del G
                         retry = True
 ##------------------------------------------------------------------------------------------------##
+## client 통신
+##------------------------------------------------------------------------------------------------##
+async def Client():
+    global done
+    try:    
+        ClientSock = socket(AF_INET, SOCK_STREAM)
+        ClientSock.connect(('210.125.31.101'), 8080)
+
+        print('connect success')
+        
+        cap = cv2.VideoCapture(0)
+
+        while(not done):
+            _, frame = cap.read()
+            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
+            _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
+            data = np.array(encode_frame)
+
+            ClientSock.send(str(len(data)).ljust(16).encode('utf-8'))
+            ClientSock.send(data)
+            cv2.waitKey(10)
+        
+        ClientSock.close()
+    except Exception as e:
+        print('connect failed')
+    
+##------------------------------------------------------------------------------------------------##
 ## 메인 함수
 ##------------------------------------------------------------------------------------------------##
 def main():
+    Client()
     start_Game()
     
 if __name__ == "__main__":
