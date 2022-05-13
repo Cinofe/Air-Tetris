@@ -53,7 +53,7 @@ async def Client():
     global done
     try:    
         ClientSock = socket(AF_INET, SOCK_STREAM)
-        ClientSock.connect(('210.125.31.101'), 8080)
+        ClientSock.connect(('210.125.31.101', 8080))
 
         print('connect success')
         
