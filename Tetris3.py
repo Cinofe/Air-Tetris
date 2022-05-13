@@ -5,7 +5,7 @@ done = False
 ##------------------------------------------------------------------------------------------------##
 ## 게임 시작 함수
 ##------------------------------------------------------------------------------------------------##
-def start_Game():
+async def start_Game():
     global done
     m_start = t.time()
     u_start = t.time()
@@ -77,8 +77,7 @@ async def Client():
 ## 메인 함수
 ##------------------------------------------------------------------------------------------------##
 async def main():
-    await Client()
-    start_Game()
+    await asyncio.gather(Client(), start_Game())
     
 if __name__ == "__main__":
     asyncio.run(main())
