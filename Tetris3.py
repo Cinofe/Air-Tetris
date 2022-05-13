@@ -71,7 +71,7 @@ async def Client():
         
         ClientSock.close()
     except Exception as e:
-        print('connect failed')
+        print(f'failed : {e}')
     
 ##------------------------------------------------------------------------------------------------##
 ## 메인 함수
