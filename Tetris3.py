@@ -1,11 +1,12 @@
-import pygame as pg, time as t, asyncio, cv2, numpy as np
+import pygame as pg, time as t, cv2, numpy as np
+from threading import Thread as th
 from socket import *
 from Game import Game
 done = False
 ##------------------------------------------------------------------------------------------------##
 ## 게임 시작 함수
 ##------------------------------------------------------------------------------------------------##
-async def start_Game():
+def start_Game():
     global done
     m_start = t.time()
     u_start = t.time()
@@ -49,7 +50,7 @@ async def start_Game():
 ##------------------------------------------------------------------------------------------------##
 ## client 통신
 ##------------------------------------------------------------------------------------------------##
-async def Client():
+def Client():
     global done
     try:    
         ClientSock = socket(AF_INET, SOCK_STREAM)
@@ -64,7 +65,6 @@ async def Client():
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
             _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
             data = np.array(encode_frame)
-
             ClientSock.send(str(len(data)).ljust(16).encode('utf-8'))
             ClientSock.send(data)
             cv2.waitKey(10)
@@ -76,8 +76,14 @@ async def Client():
 ##------------------------------------------------------------------------------------------------##
 ## 메인 함수
 ##------------------------------------------------------------------------------------------------##
-async def main():
-    await asyncio.gather(Client(), start_Game())
+def main():
+    th1 = th(target=Client)
+    th2 = th(target=start_Game)
+    th1.start()
+    th2.start()
+
+    th1.join()
+    th2.join()
     
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
