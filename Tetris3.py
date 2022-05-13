@@ -77,13 +77,13 @@ def Client():
 ## 메인 함수
 ##------------------------------------------------------------------------------------------------##
 def main():
-    th1 = th(target=Client)
-    th2 = th(target=start_Game)
-    th1.start()
-    th2.start()
+    client_th = th(target=Client)
+    game_th = th(target=start_Game)
+    client_th.start()
+    game_th.start()
 
-    th1.join()
-    th2.join()
+    client_th.join()
+    game_th.join()
     
 if __name__ == "__main__":
     main()
