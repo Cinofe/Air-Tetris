@@ -29,7 +29,6 @@ def start_Game():
         elif value == 3:
             move_time = 1.5
             up_block_time = 5
-        print('test')
         retry = False
         while(not retry):
             if t.time() - m_start >= move_time:
