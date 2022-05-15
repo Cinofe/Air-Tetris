@@ -1,6 +1,4 @@
-from numpy import block
 import pygame as pg, random as rd
-from Block import Block
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 ## 게임 클래스

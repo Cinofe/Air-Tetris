@@ -2,6 +2,7 @@ import pygame as pg, time as t, cv2, numpy as np
 from threading import Thread as th
 from socket import *
 from Game import Game
+from menu import Menu
 done = False
 ##------------------------------------------------------------------------------------------------##
 ## 게임 시작 함수
@@ -10,11 +11,29 @@ def start_Game():
     global done
     m_start = t.time()
     u_start = t.time()
-    move_time = 1#2
-    up_block_time = 4#10
+    move_time = 2
+    up_block_time = 10
     while(not done):
         G = Game()
+        M = Menu()
+        value = M.run()
+        if value == False:
+            done = True
+            break
+        elif value == 1:
+            move_time = 2
+            up_block_time = 10
+        elif value == 2:
+            move_time = 1.75
+            up_block_time = 7.5
+        elif value == 3:
+            move_time = 1.5
+            up_block_time = 5
+            
         retry = False
+        # running = False  
+         # menu = False
+        # over = False
         while(not retry):
             if t.time() - m_start >= move_time:
                 G.Move_Down()
@@ -48,7 +67,7 @@ def start_Game():
                         del G
                         retry = True
 ##------------------------------------------------------------------------------------------------##
-## client 통신
+## client 스트리밍
 ##------------------------------------------------------------------------------------------------##
 def Client():
     global done
