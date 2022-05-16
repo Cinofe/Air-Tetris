@@ -91,7 +91,7 @@ def main():
     game_th = th(target=start_Game)
 
     client_th.start()
-    game_th.statr()
+    game_th.start()
 
     client_th.join()
     game_th.join()
