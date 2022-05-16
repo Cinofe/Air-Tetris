@@ -9,7 +9,7 @@ from menu import Menu
 ##------------------------------------------------------------------------------------------------##
 done = False
 
-def start_Game(self):
+def start_Game():
     while(not done):
         m_start = t.time()
         u_start = t.time()
