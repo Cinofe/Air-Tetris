@@ -10,6 +10,7 @@ from menu import Menu
 done = False
 
 def start_Game():
+    global done
     while(not done):
         m_start = t.time()
         u_start = t.time()
