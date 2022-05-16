@@ -31,15 +31,15 @@ class Menu:
     ## 화면 업데이트
     ##---------------------------------------------------------------------------------------------##
     def update(self):
+        self.selections = [(self.rect_levelBox, self.levelText),
+                            (self.rect_playBox, self.playText),
+                            (self.rect_quitBox, self.quitText)]
         self.screen.fill((0,0,0))
         self.change_selection()
         # 난이도 조절시에만 화살표 표시
         if self.selected == 0:
             self.draw_arrow()
         self.draw_text()
-        self.selections = [(self.rect_levelBox, self.levelText),
-                            (self.rect_playBox, self.playText),
-                            (self.rect_quitBox, self.quitText)]
         pg.display.flip()
     ##---------------------------------------------------------------------------------------------##
     ## 난이도 선택칸 화살표 그리기
