@@ -76,11 +76,11 @@ class Menu:
                     self.rect_levelBox.centery - self.levelText.get_height()//2)
         playPos = (self.rect_playBox.centerx - self.playText.get_width()//2,
                     self.rect_playBox.centery - self.playText.get_height()//2)
-        quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
-                    self.rect_quitBox.centery - self.quitText.get_height()//2)
+        # quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
+        #             self.rect_quitBox.centery - self.quitText.get_height()//2)
         self.screen.blit(self.levelText, levelPos)
         self.screen.blit(self.playText, playPos)
-        self.screen.blit(self.quitText, quitPos)
+        # self.screen.blit(self.quitText, quitPos)
     ##---------------------------------------------------------------------------------------------##
     ## 선택지 이동 그리기
     ##---------------------------------------------------------------------------------------------##
@@ -89,7 +89,7 @@ class Menu:
         box, text = self.selections[self.selected]
         selectionPos = ((box.centerx - text.get_width()//2)-5,
                         (box.centery - text.get_height()//2)-5,
-                        text.get_width()+10, text.get_height())
+                        text.get_width()+10, text.get_height()+3)
         pg.draw.rect(self.screen, (255,255,255),selectionPos,2)
     ##---------------------------------------------------------------------------------------------##
     ## 메뉴 화면 실행
@@ -104,11 +104,11 @@ class Menu:
                         return False
                     if event.key == pg.K_UP:
                         if self.selected == 0:
-                            self.selected = 2
+                            self.selected = 1
                         else:
                             self.selected -= 1
                     if event.key == pg.K_DOWN:
-                        if self.selected == 2:
+                        if self.selected == 1:
                             self.selected = 0
                         else :
                             self.selected += 1
