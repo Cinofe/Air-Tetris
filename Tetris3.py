@@ -1,5 +1,6 @@
 import pygame as pg, time as t, cv2, numpy as np
 from threading import Thread as th
+from multiprocessing import Process as ps
 from socket import *
 from Game import Game
 from menu import Menu
@@ -90,11 +91,11 @@ class Main():
     
 if __name__ == "__main__":
     main = Main()
-    game_th = th(target=main.start_Game())
-    client_th = th(target=main.Streaming())
+    game_ps = ps(target=main.start_Game())
+    client_ps = ps(target=main.Streaming())
 
-    game_th.start()
-    client_th.start()
+    game_ps.start()
+    client_ps.start()
 
-    game_th.start()
-    client_th.join()
+    game_ps.start()
+    client_ps.join()
