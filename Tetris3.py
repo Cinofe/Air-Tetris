@@ -22,8 +22,8 @@ class Main():
             u_start = t.time()
             move_time = 2
             up_block_time = 10
-            G = Game()
             M = Menu()
+            G = Game()
 
             value = M.run()
             if value == False:
