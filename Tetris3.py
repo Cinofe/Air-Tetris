@@ -87,19 +87,14 @@ class Main():
         
         self.ClientSock.close()
         
-    ##------------------------------------------------------------------------------------------------##
-    ## 메인 함수
-    ##------------------------------------------------------------------------------------------------##
-    def run(self):
-        game_th = th(target=self.start_Game())
-        client_th = th(target=self.Streaming())
-
-        game_th.start()
-        client_th.start()
-        
-        game_th.start()
-        client_th.join()
     
 if __name__ == "__main__":
     main = Main()
-    main.run()
+    game_th = th(target=main.start_Game())
+    client_th = th(target=main.Streaming())
+
+    game_th.start()
+    client_th.start()
+
+    game_th.start()
+    client_th.join()
