@@ -32,10 +32,10 @@ class Menu:
     ##---------------------------------------------------------------------------------------------##
     def update(self):
         self.screen.fill((0,0,0))
+        self.change_selection()
         # 난이도 조절시에만 화살표 표시
         if self.selected == 0:
             self.draw_arrow()
-        self.change_selection()
         self.draw_text()
         self.selections = [(self.rect_levelBox, self.levelText),
                             (self.rect_playBox, self.playText),
