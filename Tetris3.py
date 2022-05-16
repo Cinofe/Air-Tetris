@@ -87,13 +87,13 @@ def Streaming():
     ClientSock.close()
 
 def main():
-    client_th = th(target=Streaming())
-    game_th = th(target=start_Game())
+    client_th = th(target=Streaming)
+    game_th = th(target=start_Game)
 
     client_th.start()
-    client_th.join()
+    game_th.statr()
 
-    game_th.start()
+    client_th.join()
     game_th.join()
     
     
