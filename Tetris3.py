@@ -23,8 +23,6 @@ class Main():
             move_time = 2
             up_block_time = 10
             M = Menu()
-            G = Game()
-
             value = M.run()
             if value == False:
                 self.done = True
@@ -38,6 +36,7 @@ class Main():
             elif value == 3:
                 move_time = 1
                 up_block_time = 6
+            G = Game()
 
             retry = False
             while(not retry):
