@@ -111,19 +111,23 @@ class Menu:
                             self.selected = 1
                         else:
                             self.selected -= 1
+                        self.update()
                     if event.key == pg.K_DOWN:
                         if self.selected == 1:
                             self.selected = 0
                         else :
                             self.selected += 1
+                        self.update()
                     if event.key == pg.K_LEFT:
                         if self.selected == 0:
                             if self.level > 1:
                                 self.level -= 1
+                        self.update()
                     if event.key == pg.K_RIGHT:
                         if self.selected == 0:
                             if self.level < 3:
                                 self.level += 1
+                        self.update()
                     if event.key == pg.K_RETURN:
                         if self.selected == 1:
                             return self.level
