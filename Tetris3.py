@@ -89,10 +89,10 @@ def Streaming():
     
     
 if __name__ == "__main__":
-    game_ps = th(target=start_Game())
-    client_ps = th(target=Streaming())
+    game_th = th(target=start_Game())
+    client_th = th(target=Streaming())
 
-    game_ps.start()
-    client_ps.start()
-
-    client_ps.join()
+    game_th.start()
+    client_th.start()
+    game_th.join()
+    client_th.join()
