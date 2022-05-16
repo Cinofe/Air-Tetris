@@ -16,11 +16,11 @@ class Main():
             print("Connection Error")
 
     def start_Game(self):
-        m_start = t.time()
-        u_start = t.time()
-        move_time = 2
-        up_block_time = 10
         while(not self.done):
+            m_start = t.time()
+            u_start = t.time()
+            move_time = 2
+            up_block_time = 10
             G = Game()
             M = Menu()
 
