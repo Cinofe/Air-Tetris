@@ -70,7 +70,6 @@ class Menu:
             pg.draw.polygon(self.screen, (255,255,255),right_polygon)
         elif self.level == 3:
             pg.draw.polygon(self.screen, (255,255,255),left_polygon)
-        self.update()
     ##---------------------------------------------------------------------------------------------##
     ## Text 그리기
     ##---------------------------------------------------------------------------------------------##
@@ -85,7 +84,6 @@ class Menu:
         self.screen.blit(self.playText, playPos)
         # self.screen.blit(self.quitText, quitPos)
 
-        self.update()
     ##---------------------------------------------------------------------------------------------##
     ## 선택지 이동 그리기
     ##---------------------------------------------------------------------------------------------##
@@ -97,7 +95,6 @@ class Menu:
                         text.get_width()+10, text.get_height()+3)
         pg.draw.rect(self.screen, (255,255,255),selectionPos,2)
 
-        self.update()
     ##---------------------------------------------------------------------------------------------##
     ## 메뉴 화면 실행
     ##---------------------------------------------------------------------------------------------##
@@ -132,6 +129,7 @@ class Menu:
                             return self.level
                         elif self.selected == 2:
                             return False
+                    self.update()
 
 if __name__ == '__main__':
     menu = Menu()
