@@ -85,10 +85,8 @@ def Streaming():
         cv2.waitKey(10)
     
     ClientSock.close()
-    
-    
-if __name__ == "__main__":
 
+def main():
     client_th = th(target=Streaming())
     game_th = th(target=start_Game())
 
@@ -97,3 +95,7 @@ if __name__ == "__main__":
 
     game_th.start()
     game_th.join()
+    
+    
+if __name__ == "__main__":
+    main()
