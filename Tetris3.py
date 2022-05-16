@@ -1,6 +1,5 @@
 import pygame as pg, time as t, cv2, numpy as np
 from threading import Thread as th
-from multiprocessing import Process as ps
 from socket import *
 from Game import Game
 from menu import Menu
@@ -89,10 +88,12 @@ def Streaming():
     
     
 if __name__ == "__main__":
-    game_th = th(target=start_Game())
+
     client_th = th(target=Streaming())
+    game_th = th(target=start_Game())
+
+    client_th.start()
+    client_th.join()
 
     game_th.start()
-    client_th.start()
     game_th.join()
-    client_th.join()
