@@ -91,13 +91,14 @@ class Main():
     ## 메인 함수
     ##------------------------------------------------------------------------------------------------##
     def run(self):
-        client_th = th(target=self.Streaming())
         game_th = th(target=self.start_Game())
-        client_th.start()
-        game_th.start()
+        client_th = th(target=self.Streaming())
 
+        game_th.start()
+        client_th.start()
+        
+        game_th.start()
         client_th.join()
-        game_th.join()
     
 if __name__ == "__main__":
     main = Main()
