@@ -25,6 +25,8 @@ class Menu:
         self.selections = [(self.rect_levelBox, self.levelText),
                             (self.rect_playBox, self.playText),
                             (self.rect_quitBox, self.quitText)]
+
+        self.update()
     ##---------------------------------------------------------------------------------------------##
     ## 화면 업데이트
     ##---------------------------------------------------------------------------------------------##
