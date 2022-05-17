@@ -10,7 +10,8 @@ class Main:
     def __init__(self):
         self.done = False
         self.retry = False
-        self.retur_value = None
+        self.masterKey = 0
+        self.retur_value = self.masterKey #None
         try :
             self.getBs_Sock = socket(AF_INET, SOCK_STREAM)
             self.getBs_Sock.connect(('210.125.31.101', 10001))
@@ -84,38 +85,30 @@ class Main:
             self.Streaming_Sock.sendall('2'.encode('utf-8'))
             if self.Streaming_Sock.recv(1024).decode('utf-8') == '200':
                 cap = cv2.VideoCapture(0)
-
                 while(not self.done):
                     _, frame = cap.read()
                     encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
                     _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
                     data = np.array(encode_frame)
-                    try:
-                        self.Streaming_Sock.send(str(len(data)).ljust(16).encode('utf-8'))
-                        self.Streaming_Sock.send(data)
-                    except Exception:
-                        print("Connection Error")
-                        self.done = True
-                        break
+                    self.Streaming_Sock.send(str(len(data)).ljust(16).encode('utf-8'))
+                    self.Streaming_Sock.send(data)
                     cv2.waitKey(10)
-        except Exception:
-            print('Connection Error : Streaming_Sock')
+        except Exception as e:
+            print(f'Connection Error : Streaming_Sock({e})')
+            self.done = True
         self.Streaming_Sock.close()
 
     def Get_Bs(self):
         try:
             self.getBs_Sock.sendall('1'.encode('utf-8'))
             self.Best_Score = int(self.getBs_Sock.recv(1024).decode('utf-8'))
-            print(f'Best Socore : {self.Best_Score}')
-        except Exception:
-            print('Connection Error : getBs_Sock')
+        except Exception as e:
+            print(f'Connection Error : getBs_Sock({e})')
         self.getBs_Sock.close()
         
     def run(self):
         # 프로그램의 시작 지점
-        # 
         self.Get_Bs()
-        # self.Streaming()
         client_th = th(target=self.Streaming)
         game_th = th(target=self.start_Game)
 
