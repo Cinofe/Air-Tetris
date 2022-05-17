@@ -4,7 +4,7 @@ from Case import Case
 ## 게임 클래스
 ##-------------------------------------------------------------------------------------------------##
 class Game:
-    def __init__(self):
+    def __init__(self, Best_Score):
         pg.init()
         pg.key.set_repeat(300,100)
         pg.display.set_caption('Tetris')
@@ -72,7 +72,7 @@ class Game:
         self.__Map =[[('0',(0))for _ in range(10)]for _ in range(20)]
 
         self.__Score = 0
-        # self.__BestScore = 0
+        self.__BestScore = Best_Score
 
         self.__createPrevBlock()
         self.__createNewBlock()
@@ -85,7 +85,7 @@ class Game:
         self.__drawBackground()
         self.__drawMap()
         self.__drawText('Next Block', 20, self.__Colors.get("WHITE"),(400, 184))
-        # self.__drawText('Best Score : '+ str(0), 25, self.__Colors.get('WHITE'),(360,240))
+        self.__drawText('Best Score : '+ self.__BestScore, 25, self.__Colors.get('WHITE'),(360,240))
         self.__drawText('Score : ' + str(self.__Score), 25, self.__Colors.get('WHITE'),(360,280))
         self.__drawPrevBlock()
         self.__drawNewBlock()

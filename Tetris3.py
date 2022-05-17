@@ -10,11 +10,15 @@ class Main:
     def __init__(self):
         self.done = False
         self.retry = False
+        self.retur_value = None
         try :
-            self.ClientSock = socket(AF_INET, SOCK_STREAM)
-            self.ClientSock.connect(('210.125.31.101', 8080))
-        except Exception:
-            print("Connection Error")
+            self.getBs_Sock = socket(AF_INET, SOCK_STREAM)
+            self.getBs_Sock.connect(('210.125.31.101', 10001))
+            self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
+            self.Streaming_Sock.connect(('210.125.31.101', 10002))
+        except Exception as e:
+            print(f"Connection Error : {e}")
+        self.Best_Score = 0
 
     def start_Game(self):
 
@@ -37,7 +41,7 @@ class Main:
             elif value == 3:
                 move_time = 1
                 up_block_time = 6
-            G = Game()
+            G = Game(self.Best_Score)
 
             while(not self.retry):
                 if t.time() - m_start >= move_time:
@@ -54,18 +58,20 @@ class Main:
                         self.done = True
                         self.retry = True
                     if event.type == pg.KEYDOWN:
+                        if self.retur_value == None:
+                            continue
                         if event.key == pg.K_ESCAPE:
                             self.done = True
                             self.retry = True
-                        if event.key == pg.K_UP:
+                        if event.key == pg.K_UP or self.retur_value == 0:
                             G.Turnning()
-                        if event.key == pg.K_DOWN:
+                        if event.key == pg.K_DOWN or self.retur_value == 0:
                             G.Move_Down()
-                        if event.key == pg.K_LEFT:
+                        if event.key == pg.K_LEFT or self.retur_value == 0:
                             G.Move_Left()
-                        if event.key == pg.K_RIGHT:
+                        if event.key == pg.K_RIGHT or self.retur_value == 0:
                             G.Move_Right()
-                        if event.key == pg.K_SPACE:
+                        if event.key == pg.K_SPACE or self.retur_value == 0:
                             G.instant_down()
                         if event.key == pg.K_r:
                             del G
@@ -74,20 +80,42 @@ class Main:
     ## client 스트리밍
     ##------------------------------------------------------------------------------------------------##
     def Streaming(self):
-        cap = cv2.VideoCapture(0)
+        try:
+            self.Streaming_Sock.sendall('2'.encode('utf-8'))
+            if self.Streaming_Sock.recv(1024).decode('utf-8') == '200':
+                cap = cv2.VideoCapture(0)
 
-        while(not self.done):
-            _, frame = cap.read()
-            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
-            _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
-            data = np.array(encode_frame)
-            self.ClientSock.send(str(len(data)).ljust(16).encode('utf-8'))
-            self.ClientSock.send(data)
-            cv2.waitKey(10)
+                while(not self.done):
+                    _, frame = cap.read()
+                    encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
+                    _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
+                    data = np.array(encode_frame)
+                    try:
+                        self.Streaming_Sock.send(str(len(data)).ljust(16).encode('utf-8'))
+                        self.Streaming_Sock.send(data)
+                    except Exception:
+                        print("Connection Error")
+                        self.done = True
+                        break
+                    cv2.waitKey(10)
+        except Exception:
+            print('Connection Error : Streaming_Sock')
+        self.Streaming_Sock.close()
+
+    def Get_Bs(self):
+        try:
+            self.getBs_Sock.sendall('1'.encode('utf-8'))
+            self.Best_Score = int(self.getBs_Sock.recv(1024).decode('utf-8'))
+            print(f'Best Socore : {self.Best_Score}')
+        except Exception:
+            print('Connection Error : getBs_Sock')
+        self.getBs_Sock.close()
         
-        self.ClientSock.close()
-
     def run(self):
+        # 프로그램의 시작 지점
+        # 
+        self.Get_Bs()
+        # self.Streaming()
         client_th = th(target=self.Streaming)
         game_th = th(target=self.start_Game)
 
