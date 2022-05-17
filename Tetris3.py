@@ -58,11 +58,11 @@ class Main:
                         self.done = True
                         self.retry = True
                     if event.type == pg.KEYDOWN:
-                        if self.retur_value == None:
-                            continue
                         if event.key == pg.K_ESCAPE:
                             self.done = True
                             self.retry = True
+                        if self.retur_value == None:
+                            continue
                         if event.key == pg.K_UP or self.retur_value == 0:
                             G.Turnning()
                         if event.key == pg.K_DOWN or self.retur_value == 0:
