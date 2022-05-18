@@ -107,6 +107,10 @@ class Main:
                     self.Streaming_Sock.send(str(len(data)).ljust(16).encode('utf-8'))
                     self.Streaming_Sock.send(data)
                     cv2.waitKey(10)
+
+
+                    # 데이터 받는 곳
+                    # self.return_value = self.Streaming_Sock.recv(1024).decode('utf-8')
         except Exception as e:
             print(f'Connection Error : Streaming_Sock({e})')
             self.done = True
