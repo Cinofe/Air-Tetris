@@ -23,9 +23,9 @@ class Main:
                 self.Streaming_Sock.connect(('210.125.31.101', 10002))
                 self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
             else:
-                self.Get_Bs_Sock.connect(('192.168.163.155', 10001))
-                self.Streaming_Sock.connect(('192.168.163.155', 10002))
-                self.Set_Bs_Sock.connect(('192.168.163.155', 10003))
+                self.Get_Bs_Sock.connect(('192.168.98.155', 10001))
+                self.Streaming_Sock.connect(('192.168.98.155', 10002))
+                self.Set_Bs_Sock.connect(('192.168.98.155', 10003))
         except Exception as e:
             print(f"Connection Error : {e}")
         self.Best_Score = 0
