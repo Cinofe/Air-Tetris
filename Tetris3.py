@@ -12,17 +12,19 @@ class Main:
         self.retry = False
         self.masterKey = 0
         self.retur_value = self.masterKey #None
+        self.serverMode = 1
 
         self.getBs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
-
-        # try :    
-        #     self.getBs_Sock.connect(('210.125.31.101', 10001))
-        #     self.Streaming_Sock.connect(('210.125.31.101', 10002))
-        # except Exception as e:
-        self.getBs_Sock.connect(('192.168.181.155', 10001))
-        self.Streaming_Sock.connect(('192.168.181.155', 10002))
-            # print(f"Connection Error : {e}")
+        try :
+            if self.serverMode == 1:
+                self.getBs_Sock.connect(('210.125.31.101', 10001))
+                self.Streaming_Sock.connect(('210.125.31.101', 10002))
+            else:
+                self.getBs_Sock.connect(('192.168.181.155', 10001))
+                self.Streaming_Sock.connect(('192.168.181.155', 10002))
+        except Exception as e:
+            print(f"Connection Error : {e}")
         self.Best_Score = 0
 
     def start_Game(self):
