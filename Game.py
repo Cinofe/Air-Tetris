@@ -71,7 +71,7 @@ class Game:
         self.__prevColor = ()
         self.__Map =[[('0',(0))for _ in range(10)]for _ in range(20)]
 
-        self.__Score = 0
+        self.Score = 0
         self.__BestScore = Best_Score
 
         self.__createPrevBlock()
@@ -86,7 +86,7 @@ class Game:
         self.__drawMap()
         self.__drawText('Next Block', 20, self.__Colors.get("WHITE"),(400, 184))
         self.__drawText('Best Score : '+ str(self.__BestScore), 25, self.__Colors.get('WHITE'),(360,240))
-        self.__drawText('Score : ' + str(self.__Score), 25, self.__Colors.get('WHITE'),(360,280))
+        self.__drawText('Score : ' + str(self.Score), 25, self.__Colors.get('WHITE'),(360,280))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -302,7 +302,7 @@ class Game:
                     else:
                         self.__Map[j] = self.__Map[j-1]
                 l += 1
-                self.__Score += 10
+                self.Score += 10
             elif cnt == 0:
                 break
             l -= 1

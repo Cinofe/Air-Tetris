@@ -11,22 +11,27 @@ class Main:
         self.done = False
         self.retry = False
         self.masterKey = 0
-        self.retur_value = self.masterKey #None
+        self.return_value = self.masterKey 
         self.serverMode = 1
 
-        self.getBs_Sock = socket(AF_INET, SOCK_STREAM)
+        self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
+        self.Set_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         try :
             if self.serverMode == 1:
-                self.getBs_Sock.connect(('210.125.31.101', 10001))
+                self.Get_Bs_Sock.connect(('210.125.31.101', 10001))
                 self.Streaming_Sock.connect(('210.125.31.101', 10002))
+                self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
             else:
-                self.getBs_Sock.connect(('192.168.181.155', 10001))
+                self.Get_Bs_Sock.connect(('192.168.181.155', 10001))
                 self.Streaming_Sock.connect(('192.168.181.155', 10002))
+                self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
         except Exception as e:
             print(f"Connection Error : {e}")
         self.Best_Score = 0
-
+    ##------------------------------------------------------------------------------------------------##
+    ## Tetris 실행 함수
+    ##------------------------------------------------------------------------------------------------##
     def start_Game(self):
 
         while(not self.done):
@@ -58,6 +63,9 @@ class Main:
                     G.Line_Plus()
                     u_start = t.time()
                 if G.GAME_OVER():
+                    if self.Best_Score < G.Score:
+                        self.Best_Score = G.Score
+                        self.Set_Bs()
                     del G
                     self.retry = True
                 for event in pg.event.get():
@@ -68,17 +76,17 @@ class Main:
                         if event.key == pg.K_ESCAPE:
                             self.done = True
                             self.retry = True
-                        if self.retur_value == None:
+                        if self.return_value == None:
                             continue
-                        if event.key == pg.K_UP or self.retur_value == 0:
+                        if event.key == pg.K_UP or self.return_value == 1:
                             G.Turnning()
-                        if event.key == pg.K_DOWN or self.retur_value == 0:
+                        if event.key == pg.K_DOWN or self.return_value == 2:
                             G.Move_Down()
-                        if event.key == pg.K_LEFT or self.retur_value == 0:
+                        if event.key == pg.K_LEFT or self.return_value == 3:
                             G.Move_Left()
-                        if event.key == pg.K_RIGHT or self.retur_value == 0:
+                        if event.key == pg.K_RIGHT or self.return_value == 4:
                             G.Move_Right()
-                        if event.key == pg.K_SPACE or self.retur_value == 0:
+                        if event.key == pg.K_SPACE or self.return_value == 5:
                             G.instant_down()
                         if event.key == pg.K_r:
                             del G
@@ -103,17 +111,26 @@ class Main:
             print(f'Connection Error : Streaming_Sock({e})')
             self.done = True
         self.Streaming_Sock.close()
-
+    ##------------------------------------------------------------------------------------------------##
+    ## 서버로 부터 현재 저장된 최고점수를 요청하는 함수
+    ##------------------------------------------------------------------------------------------------##
     def Get_Bs(self):
         try:
-            self.getBs_Sock.sendall('1'.encode('utf-8'))
-            self.Best_Score = int(self.getBs_Sock.recv(1024).decode('utf-8'))
+            self.Best_Score = int(self.Get_Bs_Sock.recv(1024).decode('utf-8'))
         except Exception as e:
-            print(f'Connection Error : getBs_Sock({e})')
-        self.getBs_Sock.close()
-        
+            print(f'Connection Error : Get_Bs_Sock({e})')
+    ##------------------------------------------------------------------------------------------------##
+    ## 서버로 부터 현재 저장된 최고점수를 요청하는 함수
+    ##------------------------------------------------------------------------------------------------##
+    def Set_Bs(self):
+        try:
+            self.Set_Bs_Sock.sendall(str(self.Best_Score).encode('utf-8'))
+        except Exception as e:
+            print(f'Connection Error : Set_Bs_Sock({e})')
+    ##------------------------------------------------------------------------------------------------##
+    ## 메인 프로그램 시작 함수
+    ##------------------------------------------------------------------------------------------------##
     def run(self):
-        # 프로그램의 시작 지점
         self.Get_Bs()
         client_th = th(target=self.Streaming)
         game_th = th(target=self.start_Game)
@@ -123,6 +140,7 @@ class Main:
 
         client_th.join()
         game_th.join()
+        self.Get_Bs_Sock.close()
     
     
 if __name__ == "__main__":
