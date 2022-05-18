@@ -12,7 +12,7 @@ class Main:
         self.retry = False
         self.masterKey = 0
         self.return_value = self.masterKey 
-        self.serverMode = 1
+        self.serverMode = 0
 
         self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
