@@ -100,7 +100,7 @@ class Main:
             self.Streaming_Sock.sendall('2'.encode('utf-8'))
             if self.Streaming_Sock.recv(1024).decode('utf-8') == '200':
                 cap = cv2.VideoCapture(0)
-                # cap.set(cv2.CAP_PROP_FRAME_WIDTH,360)
+                cap.set(360,720)
                 # cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
                 while(not self.done):
                     _, frame = cap.read()
