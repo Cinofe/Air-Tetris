@@ -17,17 +17,18 @@ class Main:
         self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
         self.Set_Bs_Sock = socket(AF_INET, SOCK_STREAM)
-        try :
-            if self.serverMode == 1:
-                self.Get_Bs_Sock.connect(('210.125.31.101', 10001))
-                self.Streaming_Sock.connect(('210.125.31.101', 10002))
-                self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
-            else:
-                self.Get_Bs_Sock.connect(('192.168.98.155', 10001))
-                self.Streaming_Sock.connect(('192.168.98.155', 10002))
-                self.Set_Bs_Sock.connect(('192.168.98.155', 10003))
-        except Exception as e:
-            print(f"Connection Error : {e}")
+        if self.serverMode > 0:
+            try :
+                if self.serverMode == 1:
+                    self.Get_Bs_Sock.connect(('210.125.31.101', 10001))
+                    self.Streaming_Sock.connect(('210.125.31.101', 10002))
+                    self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
+                else:
+                    self.Get_Bs_Sock.connect(('192.168.98.155', 10001))
+                    self.Streaming_Sock.connect(('192.168.98.155', 10002))
+                    self.Set_Bs_Sock.connect(('192.168.98.155', 10003))
+            except Exception as e:
+                print(f"Connection Error : {e}")
         self.Best_Score = 0
     ##------------------------------------------------------------------------------------------------##
     ## Tetris 실행 함수
@@ -56,12 +57,12 @@ class Main:
             G = Game(self.Best_Score)
 
             while(not self.retry):
-                if t.time() - m_start >= move_time:
-                    G.Move_Down()
-                    m_start = t.time()
-                if t.time() - u_start >= up_block_time:
-                    G.Line_Plus()
-                    u_start = t.time()
+                # if t.time() - m_start >= move_time:
+                #     G.Move_Down()
+                #     m_start = t.time()
+                # if t.time() - u_start >= up_block_time:
+                #     G.Line_Plus()
+                #     u_start = t.time()
                 if G.GAME_OVER():
                     if self.Best_Score < G.Score:
                         self.Best_Score = G.Score
@@ -145,7 +146,6 @@ class Main:
         client_th.join()
         game_th.join()
         self.Get_Bs_Sock.close()
-    
     
 if __name__ == "__main__":
     main = Main()

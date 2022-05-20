@@ -6,7 +6,7 @@ class Case:
     def __init__(self):
         self.__x = 4
         self.__y = 0
-        self.__Blocks = [Block() for _ in range(4)]
+        self.__Blocks = []
         self.__Block = []
         self.__Color = ()
         self.__dir = 0
@@ -29,7 +29,8 @@ class Case:
     ##--------------------------------------------------------------------------------------------##
     ## case의 블럭 모양 설정
     ##--------------------------------------------------------------------------------------------##
-    def setBlock(self, block):
+    def setBlock(self, block, count):
+        self.__Blocks = [Block() for _ in range(count)]
         self.__Block = block
         ## 블럭 모양에 따라 위치 교정
         # 첫 번쨰 가로열이 모두 0 이면 Case의 y 좌표 -1
@@ -45,8 +46,8 @@ class Case:
     def __In_Change(self):
         self.__IN_Bposs = []
         ## case 좌표 기반으로 block의 최초 좌표 설정
-        for i in range(4):
-            for j in range(4):
+        for i in range(3):
+            for j in range(3):
                 if self.__Block[self.__dir][i][j] == 1:
                     # 각 Block의 현재 내부 좌표
                     self.__IN_Bposs.append([j,i])
