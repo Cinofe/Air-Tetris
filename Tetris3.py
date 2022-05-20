@@ -12,7 +12,7 @@ class Main:
         self.retry = False
         self.masterKey = 0
         self.return_value = self.masterKey 
-        self.serverMode = 1
+        self.serverMode = 0
 
         self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
@@ -100,6 +100,8 @@ class Main:
             self.Streaming_Sock.sendall('2'.encode('utf-8'))
             if self.Streaming_Sock.recv(1024).decode('utf-8') == '200':
                 cap = cv2.VideoCapture(0)
+                cap.set(cv2.CAP_PROP_FRAME_WIDTH,360)
+                cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
                 while(not self.done):
                     _, frame = cap.read()
                     encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
