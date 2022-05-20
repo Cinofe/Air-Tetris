@@ -17,7 +17,7 @@ class Main:
         self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
         self.Set_Bs_Sock = socket(AF_INET, SOCK_STREAM)
-        if self.serverMode >= 1:
+        if self.serverMode > 0:
             try :
                 if self.serverMode == 1:
                     self.Get_Bs_Sock.connect(('210.125.31.101', 10001))
