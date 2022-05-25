@@ -6,7 +6,7 @@ from Case import Case
 class Game:
     def __init__(self, Best_Score):
         pg.init()
-        pg.key.set_repeat(300,100)
+        pg.key.set_repeat(400,200)
         pg.display.set_caption('Tetris')
         self.__screen = pg.display.set_mode([535, 645])
         self.__Colors = {
@@ -108,13 +108,13 @@ class Game:
             for j in range(3):
                 if self.__prevBlock[0][i][j] == 1:
                     self.BlockCount += 1
-                    pg.draw.rect(self.__screen, self.__prevColor,[368+(j*31),53+(i*31),30,30])
+                    pg.draw.rect(self.__screen, self.__prevColor,[385+(j*31),78+(i*31),30,30])
     ##---------------------------------------------------------------------------------------------##
     ## 배경화면 그리기
     ##---------------------------------------------------------------------------------------------##
     def __drawBackground(self):
         pg.draw.rect(self.__screen, self.__Colors.get("WHITE"),[10,10,315,625],2)
-        pg.draw.rect(self.__screen, self.__Colors.get("WHITE"),[365,50,129,129],2)
+        pg.draw.rect(self.__screen, self.__Colors.get("WHITE"),[382,75,98,98],2)
     ##---------------------------------------------------------------------------------------------##
     ## 텍스트 그리기
     ##---------------------------------------------------------------------------------------------##
@@ -185,7 +185,6 @@ class Game:
         cnts = []
         x, y = self.__B_Case.getPos()
         for bx, by in self.__B_Case.getBlockPos():
-            print(bx, by)
             for j in range(by,20):
                 if self.__Map[j][bx][0] != '1':
                     cnt += 1

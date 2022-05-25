@@ -10,23 +10,25 @@ class Main:
     def __init__(self):
         self.done = False
         self.retry = False
+
+        
         self.masterKey = 0
         self.return_value = self.masterKey 
-        self.serverMode = 0
+        self.serverMode = 2
 
         self.Get_Bs_Sock = socket(AF_INET, SOCK_STREAM)
         self.Streaming_Sock = socket(AF_INET, SOCK_STREAM)
         self.Set_Bs_Sock = socket(AF_INET, SOCK_STREAM)
-        if self.serverMode > 1:
+        if self.serverMode >= 1:
             try :
                 if self.serverMode == 1:
                     self.Get_Bs_Sock.connect(('210.125.31.101', 10001))
                     self.Streaming_Sock.connect(('210.125.31.101', 10002))
                     self.Set_Bs_Sock.connect(('210.125.31.101', 10003))
                 else:
-                    self.Get_Bs_Sock.connect(('192.168.98.155', 10001))
-                    self.Streaming_Sock.connect(('192.168.98.155', 10002))
-                    self.Set_Bs_Sock.connect(('192.168.98.155', 10003))
+                    self.Get_Bs_Sock.connect(('192.168.0.2', 10001))
+                    self.Streaming_Sock.connect(('192.168.0.2', 10002))
+                    self.Set_Bs_Sock.connect(('192.168.0.2', 10003))
             except Exception as e:
                 print(f"Connection Error : {e}")
         self.Best_Score = 0
@@ -36,6 +38,7 @@ class Main:
     def start_Game(self):
 
         while(not self.done):
+            self.retry = False
             m_start = t.time()
             u_start = t.time()
             move_time = 2
@@ -55,7 +58,6 @@ class Main:
                 move_time = 1
                 up_block_time = 6
             G = Game(self.Best_Score)
-
             while(not self.retry):
                 # if t.time() - m_start >= move_time:
                 #     G.Move_Down()
@@ -100,11 +102,9 @@ class Main:
             self.Streaming_Sock.sendall('2'.encode('utf-8'))
             if self.Streaming_Sock.recv(1024).decode('utf-8') == '200':
                 cap = cv2.VideoCapture(0)
-                w = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-                h = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
-                print("원본 동영상 너비(가로) : {}, 높이(세로) : {}".format(w, h))
                 while(not self.done):
                     _, frame = cap.read()
+
                     encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
                     _, encode_frame = cv2.imencode('.jpg',frame, encode_param)
                     data = np.array(encode_frame)
