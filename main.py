@@ -15,12 +15,14 @@ class Main:
         self.Get = '1'
         self.Set = '2'
         self.stream = '3'
+        self.motion = '4'
         self.host = '210.125.31.101'
+        # self.host = '192.168.0.6'
         self.port = 10000
         self.Sock = socket(AF_INET, SOCK_STREAM)
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
-        self.return_value = 0
+        self.motion_value = 0
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -61,13 +63,20 @@ class Main:
     def Get_Bs(self):
         self.sendData(self.Sock, self.encoded(self.Get))
         length = self.recvData(16).decode('utf-8')
-        self.Best_Score = self.recvData(int(length)).decode('utf-8')
+        self.Best_Score = int(self.recvData(int(length)).decode('utf-8'))
     ##--------------------------------------------------------------------------------------------##
     ##  Best_Score 전송 하는 함수
     ##--------------------------------------------------------------------------------------------##
     def Set_Bs(self):
         self.sendData(self.Sock, self.encoded(self.Set))
         self.sendData(self.Sock, self.encoded(self.Best_Score))
+    ##--------------------------------------------------------------------------------------------##
+    ##  Server로부터 motion정보를 받아오는 함수
+    ##--------------------------------------------------------------------------------------------##
+    def Get_motion(self):
+        self.sendData(self.Sock, self.encoded(self.motion))
+        length = self.recvData(16).decode('utf-8')
+        self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
     ##--------------------------------------------------------------------------------------------##
@@ -82,44 +91,51 @@ class Main:
         except Exception as e:
             self.Error('stream Connect Error : ', e)
 
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
         while(not self.done):
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
             _, b_frame = cv2.imencode('.jpg',frame,encode_param)
-            b_frame = np.array(b_frame)
+            b_frame = np.array(b_frame) 
             self.sendData(self.StreamSock, b_frame)
-            cv2.waitKey(10)
+
+            # cv2.waitKey(10)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
         while(not self.done):
             self.retry = False
-            m_start = t.time()
+            # 타이머 설정
+            d_start = t.time()
             u_start = t.time()
-            move_time = 2
-            up_block_time = 10
+            m_start = t.time()
+
+            down_delay = 2
+            up_block_delay = 10
+            motion_delay = 0.25
+
             M = Menu()
             value = M.run()
             if value == False:
                 self.done = True
                 break
             elif value == 1:
-                move_time = 1.5
-                up_block_time = 10
+                down_delay = 1.5
+                up_block_delay = 10
             elif value == 2:
-                move_time = 1.25
-                up_block_time = 8
+                down_delay = 1.25
+                up_block_delay = 8
             elif value == 3:
-                move_time = 1
-                up_block_time = 6
+                down_delay = 1
+                up_block_delay = 6
+
             G = Game(self.Best_Score)
             while(not self.retry):
-                # if t.time() - m_start >= move_time:
-                #     G.Move_Down()
-                #     m_start = t.time()
+                if t.time() - d_start >= down_delay:
+                    G.Move_Down()
+                    d_start = t.time()
                 # if t.time() - u_start >= up_block_time:
                 #     G.Line_Plus()
                 #     u_start = t.time()
@@ -129,26 +145,40 @@ class Main:
                         self.Set_Bs()
                     del G
                     self.retry = True
+                ## 모션으로 조정
+                if t.time() - m_start >= motion_delay:
+                    self.Get_motion()
+                    print(f'motion : {self.motion_value}')
+                    if self.motion_value == 3:
+                        G.Turnning()
+                    elif self.motion_value == 5:
+                        G.Move_Down()
+                    elif self.motion_value == 1:
+                        G.Move_Left()
+                    elif self.motion_value == 2:
+                        G.Move_Right()
+                    elif self.motion_value == 4:
+                        G.instant_down()
+                    m_start = t.time()
+                ## 키입력 조정
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
                         self.done = True
                         self.retry = True
                     if event.type == pg.KEYDOWN:
                         if event.key == pg.K_ESCAPE:
-                            self.done = True
+                            # self.done = True
                             self.retry = True
-                        if self.return_value == None:
-                            continue
-                        if event.key == pg.K_UP or self.return_value == 1:
-                            G.Turnning()
-                        if event.key == pg.K_DOWN or self.return_value == 2:
-                            G.Move_Down()
-                        if event.key == pg.K_LEFT or self.return_value == 3:
-                            G.Move_Left()
-                        if event.key == pg.K_RIGHT or self.return_value == 4:
-                            G.Move_Right()
-                        if event.key == pg.K_SPACE or self.return_value == 5:
-                            G.instant_down()
+                        # if event.key == pg.K_UP or self.motion_value == 1:
+                        #     G.Turnning()
+                        # if event.key == pg.K_DOWN or self.motion_value == 2:
+                        #     G.Move_Down()
+                        # if event.key == pg.K_LEFT or self.motion_value == 3:
+                        #     G.Move_Left()
+                        # if event.key == pg.K_RIGHT or self.motion_value == 4:
+                        #     G.Move_Right()
+                        # if event.key == pg.K_SPACE or self.motion_value == 5:
+                        #     G.instant_down()
                         if event.key == pg.K_r:
                             del G
                             self.retry = True

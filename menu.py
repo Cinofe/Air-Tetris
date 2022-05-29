@@ -104,8 +104,8 @@ class Menu:
                 if event.type == pg.QUIT:
                     return False
                 if event.type == pg.KEYDOWN:
-                    if event.key == pg.K_ESCAPE:
-                        return False
+                    # if event.key == pg.K_ESCAPE:
+                    #     return False
                     if event.key == pg.K_UP:
                         if self.selected == 0:
                             self.selected = 1
