@@ -1,5 +1,5 @@
 import pygame as pg, time as t, cv2, numpy as np, sys
-from threading import Thread as th, Event as Ev
+from threading import Thread as th
 from socket import *
 from Game import Game
 from menu import Menu
@@ -11,7 +11,7 @@ class Main:
         self.done = False
         self.retry = False
         self.Best_Score = 0
-        self.value = 0
+        self.value = -1
 
         self.Get = '1'
         self.Set = '2'
@@ -24,15 +24,6 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
-
-        self.event = Ev()
-        self.pass_cnt = 0
-    ##--------------------------------------------------------------------------------------------##
-    ##  Error 출력 함수
-    ##--------------------------------------------------------------------------------------------##
-    def restart(self):
-        self.__init__()
-        self.run()
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -48,9 +39,7 @@ class Main:
         except Exception as e:
             if str(e) == '[Errno 32] Broken pipe':
                 self.Error('send Error : ', e)
-                self.pass_cnt += 1
-                if self.pass_cnt >= 10:
-                    self.event.set()
+                sys.exit()
             else : 
                 self.Error('send Error : ', e)           
     ##--------------------------------------------------------------------------------------------##
@@ -107,11 +96,11 @@ class Main:
         except Exception as e:
             self.Error('stream Connect Error : ', e)
 
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+
         while(not self.done):
-            print('caped')
             if self.value == False:
-                return
+                sys.exit()
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
@@ -119,18 +108,12 @@ class Main:
             b_frame = np.array(b_frame) 
             self.sendData(self.StreamSock, b_frame)
 
-            if self.event.is_set():
-                print('stream set')
-                return
-            _, frame = cap.read()
-
             cv2.imshow('frame',frame)
             cv2.waitKey(1)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
-        global program_out
         while(not self.done):
             self.retry = False
             # 타이머 설정
@@ -145,7 +128,7 @@ class Main:
             M = Menu()
             self.value = M.run()
             if self.value == False:
-                return
+                sys.exit()
             elif self.value == 1:
                 down_delay = 2
                 up_block_delay = 20
@@ -158,9 +141,6 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
-                if self.event.is_set():
-                    print('game set')
-                    return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
                     d_start = t.time()
