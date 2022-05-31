@@ -112,6 +112,7 @@ class Main:
         cap = cv2.VideoCapture(0)
         while(not self.done):
             if self.event.is_set():
+                print('stream set')
                 # cap = None
                 return
             _, frame = cap.read()
@@ -155,6 +156,7 @@ class Main:
             G = Game(self.Best_Score)
             while(not self.retry):
                 if self.event.is_set():
+                    print('game set')
                     return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
@@ -225,4 +227,6 @@ if __name__ == "__main__":
     program_out = False
     main = Main()
     while (not program_out):
+        del main
+        main = Main()
         main.run()
