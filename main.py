@@ -1,5 +1,5 @@
 import pygame as pg, time as t, cv2, numpy as np
-from threading import Thread as th
+from threading import Thread as th, Event as ev
 from socket import *
 from Game import Game
 from menu import Menu
@@ -24,6 +24,9 @@ class Main:
         self.StreamSock = None
         self.motion_value = 0
 
+        self.exit_event = ev()
+        self.t1 = None
+        self.t2 = None
         self.pass_cnt = 0
     ##--------------------------------------------------------------------------------------------##
     ##  재시작 함수
@@ -49,6 +52,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
+                    self.exit_event.set()
                     self.restart()
             else : 
                 self.Error('send Error : ', e)
@@ -109,6 +113,8 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
+            if self.exit_event.is_set():
+                return
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
@@ -149,6 +155,8 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
+                if self.exit_event.is_set():
+                    return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
                     d_start = t.time()
@@ -204,17 +212,17 @@ class Main:
     def run(self):
         print('running')
         self.Get_Bs()
-        t1 = th(target=self.Streaming)
-        t1.daemon = True
-        t1.start()
+        self.t1 = th(target=self.Streaming)
+        self.t1.daemon = True
+        self.t1.start()
 
-        t2 = th(target=self.start_Game)
-        t2.daemon = True
-        t2.start()
+        self.t2 = th(target=self.start_Game)
+        self.t2.daemon = True
+        self.t2.start()
 
-        t1.join()
-        t2.join()
-        
+        self.t1.join()
+        self.t2.join()
+
 if __name__ == "__main__":
     main = Main()
     main.run()
