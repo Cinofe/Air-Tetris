@@ -204,10 +204,10 @@ class Main:
     def run(self):
         print('running')
         self.Get_Bs()
-        self.Thread[0] = th(target=self.Streaming)
+        self.Thread.append(th(target=self.Streaming))
         self.Thread[0].daemon = True
         self.Thread[0].start()
-        self.Thread[1] = th(target=self.start_Game)
+        self.Thread.append(th(target=self.start_Game))
         self.Thread[1].daemon = True
         self.Thread[1].start()
         self.Thread[0].join()
