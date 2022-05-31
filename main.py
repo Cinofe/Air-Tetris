@@ -123,7 +123,7 @@ class Main:
                 return
             _, frame = cap.read()
 
-
+            cv2.imshow('frame',frame)
             cv2.waitKey(1)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
@@ -175,7 +175,6 @@ class Main:
                 ## 모션으로 조정
                 if t.time() - m_start >= motion_delay:
                     self.Get_motion()
-                    print(f'motion : {self.motion_value}')
                     if self.motion_value == 3:
                         G.Turnning()
                     elif self.motion_value == 5:
