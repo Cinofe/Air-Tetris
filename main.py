@@ -36,7 +36,9 @@ class Main:
             conn.send(str(len(data)).ljust(16).encode('utf-8'))
             conn.send(data)
         except Exception as e:
-            self.Error('send Error : ', e)
+            if str(e) == '[Errno 32] Broken pipe':
+                print('pass')
+            # self.Error('send Error : ', e)
     ##--------------------------------------------------------------------------------------------##
     ##  server로 data 받는 함수
     ##--------------------------------------------------------------------------------------------##
