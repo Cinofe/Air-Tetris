@@ -26,6 +26,12 @@ class Main:
 
         self.pass_cnt = 0
     ##--------------------------------------------------------------------------------------------##
+    ##  재시작 함수
+    ##--------------------------------------------------------------------------------------------##
+    def restart(self):
+        self.__init__()
+        self.run()
+    ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
     def Error(self, str, error):
@@ -43,7 +49,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    restart()
+                    self.restart()
             else : 
                 self.Error('send Error : ', e)
             
@@ -208,13 +214,7 @@ class Main:
 
         t1.join()
         t2.join()
-
-
-def restart():
-    del main
-    main = Main()
-    main.run()
-
+        
 if __name__ == "__main__":
     main = Main()
     main.run()
