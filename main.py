@@ -1,5 +1,5 @@
 import pygame as pg, time as t, cv2, numpy as np, sys
-from threading import Thread as th
+from threading import Thread as th, Event as Ev
 from socket import *
 from Game import Game
 from menu import Menu
@@ -24,7 +24,9 @@ class Main:
         self.StreamSock = None
         self.motion_value = 0
 
+        self.event = Ev()
         self.pass_cnt = 0
+        self.Thread = []
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -43,7 +45,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    sys.exit()
+                    self.event.set()
             else : 
                 self.Error('send Error : ', e)           
     ##--------------------------------------------------------------------------------------------##
@@ -102,6 +104,9 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
+            if self.event.is_set():
+                cap = None
+                return
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
@@ -142,6 +147,8 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
+                if self.event.is_set():
+                    return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
                     d_start = t.time()
@@ -197,16 +204,14 @@ class Main:
     def run(self):
         print('running')
         self.Get_Bs()
-        t1 = th(target=self.Streaming)
-        t1.daemon = True
-        t1.start()
-
-        t2 = th(target=self.start_Game)
-        t2.daemon = True
-        t2.start()
-
-        t1.join()
-        t2.join()
+        self.Thread[0] = th(target=self.Streaming)
+        self.Thread[0].daemon = True
+        self.Thread[0].start()
+        self.Thread[1] = th(target=self.start_Game)
+        self.Thread[1].daemon = True
+        self.Thread[1].start()
+        self.Thread[0].join()
+        self.Thread[1].join()
 
 if __name__ == "__main__":
     main = Main()
