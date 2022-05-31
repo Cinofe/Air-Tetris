@@ -133,9 +133,8 @@ class Menu:
                             return self.level
                         elif self.selected == 2:
                             return False
-                    self.update()
+            self.update()
 
 if __name__ == '__main__':
     menu = Menu()
     value = menu.run()
-    print(value)
