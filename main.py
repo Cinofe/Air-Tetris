@@ -34,6 +34,7 @@ class Main:
     ##  server로 data 전송 하는 함수
     ##--------------------------------------------------------------------------------------------##
     def sendData(self, conn, data):
+        global main
         try:
             conn.send(str(len(data)).ljust(16).encode('utf-8'))
             conn.send(data)
@@ -213,7 +214,7 @@ def restart():
     del main
     main = Main()
     main.run()
-    
+
 if __name__ == "__main__":
     main = Main()
     main.run()
