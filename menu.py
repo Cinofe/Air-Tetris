@@ -6,7 +6,9 @@ class Menu:
     def __init__(self):
         pg.init()
         pg.display.set_caption('Tetris')
-        self.screen = pg.display.set_mode([535, 645])
+        self.__si = gm()
+        self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
+        self.__screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.level = 1
         self.selected = 1
         self.fontSize = 80
