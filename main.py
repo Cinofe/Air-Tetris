@@ -194,7 +194,9 @@ class Main:
                         if event.key == pg.K_ESCAPE:
                             # self.done = True
                             self.retry = True
-                            program_out = True
+                        if event.key == pg.K_q :
+                            self.retry = True
+                            self.done = True
                         # if event.key == pg.K_UP or self.motion_value == 1:
                         #     G.Turnning()
                         # if event.key == pg.K_DOWN or self.motion_value == 2:
