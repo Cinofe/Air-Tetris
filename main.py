@@ -23,6 +23,8 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
+
+        self.pass_cnt = 0
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -37,8 +39,13 @@ class Main:
             conn.send(data)
         except Exception as e:
             if str(e) == '[Errno 32] Broken pipe':
-                print('pass')
-            # self.Error('send Error : ', e)
+                self.Error('send Error : ', e)
+                self.pass_cnt += 1
+                if self.pass_cnt >= 10:
+                    restart()
+            else : 
+                self.Error('send Error : ', e)
+            
     ##--------------------------------------------------------------------------------------------##
     ##  server로 data 받는 함수
     ##--------------------------------------------------------------------------------------------##
@@ -201,6 +208,12 @@ class Main:
         t1.join()
         t2.join()
 
+
+def restart():
+    del main
+    main = Main()
+    main.run()
+    
 if __name__ == "__main__":
     main = Main()
     main.run()
