@@ -1,4 +1,5 @@
 import pygame as pg, random as rd
+from screeninfo import get_monitors as gm
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 ## 게임 클래스
@@ -8,7 +9,9 @@ class Game:
         pg.init()
         pg.key.set_repeat(400,200)
         pg.display.set_caption('Tetris')
-        self.__screen = pg.display.set_mode([535, 645],pg.FULLSCREEN)
+        self.__si = gm()
+        self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
+        self.__screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.__Colors = {
             'BLACK':(0,0,0),
             'WHITE':(255,255,255),
