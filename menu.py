@@ -14,7 +14,7 @@ class Menu:
         self.screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.level = 1
         self.selected = 1
-        self.fontSize = 80
+        self.fontSize = 200
         self.Levels = {1:'EASY',2:'NORMAL',3:'HARD'}
         self.font = pg.font.Font(None, self.fontSize)
 
