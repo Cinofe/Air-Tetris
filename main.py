@@ -42,7 +42,6 @@ class Main:
     ##  server로 data 전송 하는 함수
     ##--------------------------------------------------------------------------------------------##
     def sendData(self, conn, data):
-        global program_out
         try:
             conn.send(str(len(data)).ljust(16).encode('utf-8'))
             conn.send(data)
@@ -51,7 +50,6 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    program_out = True
                     self.event.set()
             else : 
                 self.Error('send Error : ', e)           
@@ -127,6 +125,7 @@ class Main:
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
+        global program_out
         while(not self.done):
             self.retry = False
             # 타이머 설정
@@ -194,6 +193,7 @@ class Main:
                         if event.key == pg.K_ESCAPE:
                             # self.done = True
                             self.retry = True
+                            program_out = True
                         # if event.key == pg.K_UP or self.motion_value == 1:
                         #     G.Turnning()
                         # if event.key == pg.K_DOWN or self.motion_value == 2:
