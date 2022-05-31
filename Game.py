@@ -88,7 +88,7 @@ class Game:
         self.__screen.fill(self.__Colors.get('BLACK'))
         self.__drawBackground()
         self.__drawMap()
-        self.__drawText('Next Block', 40, self.__Colors.get("WHITE"),(240, 660))
+        self.__drawText('Next Block', 40, self.__Colors.get("WHITE"),(640, 660))
         self.__drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
         self.__drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
         self.__drawPrevBlock()
