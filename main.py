@@ -224,9 +224,4 @@ class Main:
 
 
 if __name__ == "__main__":
-    program_out = False
     main = Main()
-    while (not program_out):
-        del main
-        main = Main()
-        main.run()
