@@ -25,8 +25,6 @@ class Menu:
         self.selections = [(self.rect_levelBox, self.levelText),
                             (self.rect_playBox, self.playText),
                             (self.rect_quitBox, self.quitText)]
-        self.done = False
-
         self.update()
     ##---------------------------------------------------------------------------------------------##
     ## 종료
@@ -105,7 +103,7 @@ class Menu:
     ## 메뉴 화면 실행
     ##---------------------------------------------------------------------------------------------##
     def run(self):
-        while(not self.done):
+        while(True):
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return False

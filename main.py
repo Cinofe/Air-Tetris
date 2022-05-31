@@ -143,14 +143,14 @@ class Main:
                 self.done = True
                 break
             elif value == 1:
-                down_delay = 1.5
-                up_block_delay = 10
+                down_delay = 2
+                up_block_delay = 20
             elif value == 2:
-                down_delay = 1.25
-                up_block_delay = 8
+                down_delay = 1.7
+                up_block_delay = 15
             elif value == 3:
-                down_delay = 1
-                up_block_delay = 6
+                down_delay = 1.4
+                up_block_delay = 10
 
             G = Game(self.Best_Score)
             while(not self.retry):
