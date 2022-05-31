@@ -22,10 +22,10 @@ class Menu:
         self.playText = self.font.render("PLAY", True, (255,255,255))
         self.quitText = self.font.render("QUIT", True, (255,255,255))
 
-        self.rect_UI = pg.Rect(self.__hw-115,self.__hh-300,415,224)
-        self.rect_levelBox = pg.Rect((self.__hw-165,self.__hh-450,315,70))
-        self.rect_playBox = pg.Rect((self.__hw-165,self.__hh-377,315,70))
-        self.rect_quitBox = pg.Rect((self.__hw-165,self.__hh-304,315,70))
+        self.rect_UI = pg.Rect(self.__hw-115,self.__hh-100,415,224)
+        self.rect_levelBox = pg.Rect((self.__hw-165,self.__hh-440,315,70))
+        self.rect_playBox = pg.Rect((self.__hw-165,self.__hh-267,315,70))
+        self.rect_quitBox = pg.Rect((self.__hw-165,self.__hh-194,315,70))
 
         self.selections = [(self.rect_levelBox, self.levelText),
                             (self.rect_playBox, self.playText),
