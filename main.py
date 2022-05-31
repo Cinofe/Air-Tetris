@@ -96,7 +96,7 @@ class Main:
         except Exception as e:
             self.Error('stream Connect Error : ', e)
 
-        cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
 
         while(not self.done):
             if self.value == False:
