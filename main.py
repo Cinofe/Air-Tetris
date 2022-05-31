@@ -24,17 +24,7 @@ class Main:
         self.StreamSock = None
         self.motion_value = 0
 
-        self.kill = False
-        self.t1 = None
-        self.t2 = None
         self.pass_cnt = 0
-    ##--------------------------------------------------------------------------------------------##
-    ##  재시작 함수
-    ##--------------------------------------------------------------------------------------------##
-    def restart(self):
-        if self.kill == True:
-            self.__init__()
-            self.run()
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -53,11 +43,9 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    self.kill = True
-                    self.restart()
+                    exit()
             else : 
-                self.Error('send Error : ', e)
-            
+                self.Error('send Error : ', e)           
     ##--------------------------------------------------------------------------------------------##
     ##  server로 data 받는 함수
     ##--------------------------------------------------------------------------------------------##
@@ -114,9 +102,6 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
-            if self.kill == True:
-                print('streaming Thread kill')
-                return
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
@@ -157,9 +142,6 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
-                if self.kill == True:
-                    print('game thread kill')
-                    return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
                     d_start = t.time()
@@ -215,16 +197,16 @@ class Main:
     def run(self):
         print('running')
         self.Get_Bs()
-        self.t1 = th(target=self.Streaming)
-        self.t1.daemon = True
-        self.t1.start()
+        t1 = th(target=self.Streaming)
+        t1.daemon = True
+        t1.start()
 
-        self.t2 = th(target=self.start_Game)
-        self.t2.daemon = True
-        self.t2.start()
+        t2 = th(target=self.start_Game)
+        t2.daemon = True
+        t2.start()
 
-        while(not self.kill):
-            continue
+        t1.join()
+        t2.join()
 
 if __name__ == "__main__":
     main = Main()
