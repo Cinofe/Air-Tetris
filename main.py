@@ -109,6 +109,7 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
+            print('caped')
             if self.value == False:
                 return
             _, frame = cap.read()
