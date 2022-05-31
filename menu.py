@@ -9,8 +9,8 @@ class Menu:
         pg.display.set_caption('Tetris')
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
-        self.__tw, self.__th = self.__sw//3,self.__sh//3
-        print(self.__tw, self.__th)
+        self.__hw, self.__hh = self.__sw//2,self.__sh//2
+        print(self.__hw, self.__hh)
         self.screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.level = 1
         self.selected = 1
@@ -22,10 +22,10 @@ class Menu:
         self.playText = self.font.render("PLAY", True, (255,255,255))
         self.quitText = self.font.render("QUIT", True, (255,255,255))
 
-        self.rect_UI = pg.Rect(self.__tw-65,self.__th-210,415,224)
-        self.rect_levelBox = pg.Rect((self.__tw-115,self.__th-214,315,70))
-        self.rect_playBox = pg.Rect((self.__tw-115,self.__th-287,315,70))
-        self.rect_quitBox = pg.Rect((self.__tw-115,self.__th-360,315,70))
+        self.rect_UI = pg.Rect(self.__hw-65,self.__hh-210,415,224)
+        self.rect_levelBox = pg.Rect((self.__hw-115,self.__hh-214,315,70))
+        self.rect_playBox = pg.Rect((self.__hw-115,self.__hh-287,315,70))
+        self.rect_quitBox = pg.Rect((self.__hw-115,self.__hh-360,315,70))
 
         self.selections = [(self.rect_levelBox, self.levelText),
                             (self.rect_playBox, self.playText),
