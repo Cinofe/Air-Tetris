@@ -109,16 +109,18 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
-            if self.event.is_set():
-                print('stream set')
-                # cap = None
-                return
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
             _, b_frame = cv2.imencode('.jpg',frame,encode_param)
             b_frame = np.array(b_frame) 
             self.sendData(self.StreamSock, b_frame)
+            
+            if self.event.is_set():
+                print('stream set')
+                return
+            _, frame = cap.read()
+
 
             cv2.waitKey(1)
     ##--------------------------------------------------------------------------------------------##
