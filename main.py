@@ -97,6 +97,14 @@ class Main:
             self.Error('stream Connect Error : ', e)
 
         cap = cv2.VideoCapture(1,cv2.CAP_DSHOW)
+        ret, _ = cap.read()
+        if ret == False:
+            print('cam error')
+            cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+            ret, _ = cap.read()
+            if ret == False:
+                print("cam error")
+                self.value = False
 
         while(not self.done):
             if self.value == False:
