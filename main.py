@@ -43,7 +43,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    exit()
+                    exit(1)
             else : 
                 self.Error('send Error : ', e)           
     ##--------------------------------------------------------------------------------------------##
