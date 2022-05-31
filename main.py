@@ -30,13 +30,19 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
+    def restart(self):
+        self.__init__()
+        self.run()
+    ##--------------------------------------------------------------------------------------------##
+    ##  Error 출력 함수
+    ##--------------------------------------------------------------------------------------------##
     def Error(self, str, error):
         print(f'{str}{error}')
     ##--------------------------------------------------------------------------------------------##
     ##  server로 data 전송 하는 함수
     ##--------------------------------------------------------------------------------------------##
     def sendData(self, conn, data):
-        global main
+        global program_out
         try:
             conn.send(str(len(data)).ljust(16).encode('utf-8'))
             conn.send(data)
@@ -45,6 +51,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
+                    program_out = True
                     self.event.set()
             else : 
                 self.Error('send Error : ', e)           
@@ -213,6 +220,9 @@ class Main:
         self.Thread[0].join()
         self.Thread[1].join()
 
+
 if __name__ == "__main__":
+    program_out = False
     main = Main()
-    main.run()
+    while (not program_out):
+        main.run()
