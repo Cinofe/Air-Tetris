@@ -26,7 +26,6 @@ class Main:
 
         self.event = Ev()
         self.pass_cnt = 0
-        self.Thread = []
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -115,7 +114,7 @@ class Main:
             _, b_frame = cv2.imencode('.jpg',frame,encode_param)
             b_frame = np.array(b_frame) 
             self.sendData(self.StreamSock, b_frame)
-            
+
             if self.event.is_set():
                 print('stream set')
                 return
@@ -215,14 +214,17 @@ class Main:
     def run(self):
         print('running')
         self.Get_Bs()
-        self.Thread.append(th(target=self.Streaming))
-        self.Thread[0].daemon = True
-        self.Thread[0].start()
-        self.Thread.append(th(target=self.start_Game))
-        self.Thread[1].daemon = True
-        self.Thread[1].start()
-        self.Thread[0].join()
-        self.Thread[1].join()
+
+        t1 = th(target=self.Streaming)
+        t1.daemon = True
+        t1.start()
+
+        t2 = th(target=self.start_Game)
+        t2.daemon = True
+        t2.start()
+
+        t1.join()
+        t2.join()
 
 
 if __name__ == "__main__":
