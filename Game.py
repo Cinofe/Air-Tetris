@@ -11,6 +11,7 @@ class Game:
         pg.display.set_caption('Tetris')
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
+        print(self.__sw, self.__sh)
         self.__screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.__Colors = {
             'BLACK':(0,0,0),
