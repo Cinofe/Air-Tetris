@@ -91,7 +91,7 @@ class Main:
         except Exception as e:
             self.Error('stream Connect Error : ', e)
 
-        cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
+        cap = cv2.VideoCapture(0)
         while(not self.done):
             _, frame = cap.read()
 
@@ -100,7 +100,7 @@ class Main:
             b_frame = np.array(b_frame) 
             self.sendData(self.StreamSock, b_frame)
 
-            # cv2.waitKey(10)
+            cv2.waitKey(1)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
