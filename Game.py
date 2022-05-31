@@ -9,7 +9,8 @@ class Game:
         pg.key.set_repeat(400,200)
         pg.display.set_caption('Tetris')
         self.__user32 = ct.windll.user32
-        self.__S_size = self.__user32.GetSystemMetrics(0), self.__user32.GetSystemMetrics(1)
+        self.__S_size = (self.__user32.GetSystemMetrics(0), self.__user32.GetSystemMetrics(1))
+        print(self.__S_size)
         self.__screen = pg.display.set_mode(self.__S_size, pg.FULLSCREEN)
         self.__Colors = {
             'BLACK':(0,0,0),
