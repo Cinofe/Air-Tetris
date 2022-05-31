@@ -1,5 +1,5 @@
 import pygame as pg, time as t, cv2, numpy as np
-from threading import Thread as th, Event as ev
+from threading import Thread as th
 from socket import *
 from Game import Game
 from menu import Menu
@@ -24,7 +24,7 @@ class Main:
         self.StreamSock = None
         self.motion_value = 0
 
-        self.exit_event = ev()
+        self.kill = False
         self.t1 = None
         self.t2 = None
         self.pass_cnt = 0
@@ -113,8 +113,8 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
-            if self.exit_event.is_set():
-                print('streaming set')
+            if self.kill == True:
+                print('streaming Thread kill')
                 return
             _, frame = cap.read()
 
@@ -156,8 +156,8 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
-                if self.exit_event.is_set():
-                    print('game set')
+                if self.kill == True:
+                    print('game thread kill')
                     return
                 if t.time() - d_start >= down_delay:
                     G.Move_Down()
