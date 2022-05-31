@@ -10,7 +10,7 @@ class Menu:
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
         self.__hsx, self.__hsy = self.half_w-self.half_w//2,self.half_h-self.half_h//2
-        print(self.half_w, self.half_h)
+        print(self.__hsx, self.__hsy)
         self.screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
         self.level = 1
         self.selected = 1
