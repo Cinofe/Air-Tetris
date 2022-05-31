@@ -136,7 +136,7 @@ class Main:
 
             down_delay = 2
             up_block_delay = 10
-            motion_delay = 0.25
+            motion_delay = 0.1
 
             M = Menu()
             value = M.run()
