@@ -11,6 +11,7 @@ class Main:
         self.done = False
         self.retry = False
         self.Best_Score = 0
+        self.value = 0
 
         self.Get = '1'
         self.Set = '2'
@@ -108,6 +109,8 @@ class Main:
 
         cap = cv2.VideoCapture(0)
         while(not self.done):
+            if self.value == False:
+                return
             _, frame = cap.read()
 
             encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
@@ -139,17 +142,16 @@ class Main:
             motion_delay = 0.1
 
             M = Menu()
-            value = M.run()
-            if value == False:
-                self.done = True
-                break
-            elif value == 1:
+            self.value = M.run()
+            if self.value == False:
+                return
+            elif self.value == 1:
                 down_delay = 2
                 up_block_delay = 20
-            elif value == 2:
+            elif self.value == 2:
                 down_delay = 1.7
                 up_block_delay = 15
-            elif value == 3:
+            elif self.value == 3:
                 down_delay = 1.4
                 up_block_delay = 10
 
@@ -197,6 +199,7 @@ class Main:
                         if event.key == pg.K_q :
                             self.retry = True
                             self.done = True
+                            return
                         # if event.key == pg.K_UP or self.motion_value == 1:
                         #     G.Turnning()
                         # if event.key == pg.K_DOWN or self.motion_value == 2:
