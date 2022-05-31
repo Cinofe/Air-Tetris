@@ -52,7 +52,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    self.exit_event.set()
+                    self.kill = True
                     self.restart()
             else : 
                 self.Error('send Error : ', e)
