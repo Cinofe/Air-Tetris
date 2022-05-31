@@ -105,7 +105,7 @@ class Main:
         cap = cv2.VideoCapture(0)
         while(not self.done):
             if self.event.is_set():
-                cap = None
+                # cap = None
                 return
             _, frame = cap.read()
 
