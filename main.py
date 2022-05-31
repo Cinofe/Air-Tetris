@@ -1,4 +1,4 @@
-import pygame as pg, time as t, cv2, numpy as np
+import pygame as pg, time as t, cv2, numpy as np, os
 from threading import Thread as th
 from socket import *
 from Game import Game
@@ -43,7 +43,7 @@ class Main:
                 self.Error('send Error : ', e)
                 self.pass_cnt += 1
                 if self.pass_cnt >= 10:
-                    exit(1)
+                    os.exit()
             else : 
                 self.Error('send Error : ', e)           
     ##--------------------------------------------------------------------------------------------##
