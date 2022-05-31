@@ -22,9 +22,8 @@ class Menu:
         self.playText = self.font.render("PLAY", True, (255,255,255))
         self.quitText = self.font.render("QUIT", True, (255,255,255))
 
-        self.rect_UI = pg.Rect(self.__hw-115,self.__hh-50,415,224)
-        self.rect_levelBox = pg.Rect((self.__hw-165,self.__hh-390,315,70))
-        self.rect_playBox = pg.Rect((self.__hw-165,self.__hh-217,315,70))
+        self.rect_levelBox = pg.Rect((self.__hw-165,self.__hh-300,315,70))
+        self.rect_playBox = pg.Rect((self.__hw-165,self.__hh-147,315,70))
         self.rect_quitBox = pg.Rect((self.__hw-165,self.__hh-44,315,70))
 
         self.selections = [(self.rect_levelBox, self.levelText),
@@ -87,11 +86,11 @@ class Menu:
                     self.rect_levelBox.centery - self.levelText.get_height()//2)
         playPos = (self.rect_playBox.centerx - self.playText.get_width()//2,
                     self.rect_playBox.centery - self.playText.get_height()//2)
-        # quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
-        #             self.rect_quitBox.centery - self.quitText.get_height()//2)
+        quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
+                    self.rect_quitBox.centery - self.quitText.get_height()//2)
         self.screen.blit(self.levelText, levelPos)
         self.screen.blit(self.playText, playPos)
-        # self.screen.blit(self.quitText, quitPos)
+        self.screen.blit(self.quitText, quitPos)
 
     ##---------------------------------------------------------------------------------------------##
     ## 선택지 이동 그리기
