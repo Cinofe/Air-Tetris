@@ -1,4 +1,4 @@
-import pygame as pg, random as rd
+import pygame as pg, random as rd, ctypes as ct
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 ## 게임 클래스
@@ -8,7 +8,9 @@ class Game:
         pg.init()
         pg.key.set_repeat(400,200)
         pg.display.set_caption('Tetris')
-        self.__screen = pg.display.set_mode([535, 645])
+        self.__user32 = ct.windll.user32
+        self.__S_size = self.__user32.GetSystemMetrics(0), self.__user32.GetSystemMetrics(1)
+        self.__screen = pg.display.set_mode(self.__S_size, pg.FULLSCREEN)
         self.__Colors = {
             'BLACK':(0,0,0),
             'WHITE':(255,255,255),
