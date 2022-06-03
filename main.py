@@ -97,26 +97,19 @@ class Main:
             self.Error('stream Connect Error : ', e)
 
         cap = cv2.VideoCapture(cv2.CAP_V4L2)
-        ret, _ = cap.read()
-        if ret == False:
-            print('cam error')
-            cap = cv2.VideoCapture(0,cv2.CAP_DSHOW)
-            ret, _ = cap.read()
-            if ret == False:
-                print("cam error")
-                self.value = False
 
         while(not self.done):
             if self.value == False:
                 sys.exit()
-            _, frame = cap.read()
-
-            encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
-            _, b_frame = cv2.imencode('.jpg',frame,encode_param)
-            b_frame = np.array(b_frame) 
-            self.sendData(self.StreamSock, b_frame)
-            
-            cv2.waitKey(1)
+            ret, frame = cap.read()
+            stime = t.time()
+            if (ret is True) and (stime > 1//40):
+                stime = t.time()
+                encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
+                _, b_frame = cv2.imencode('.jpg',frame,encode_param)
+                b_frame = np.array(b_frame) 
+                self.sendData(self.StreamSock, b_frame)
+                cv2.waitKey(1)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
