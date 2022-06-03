@@ -77,6 +77,7 @@ class Game:
 
         self.Score = 0
         self.__BestScore = Best_Score
+        self.motion = ''
 
         self.__createPrevBlock()
         self.__createNewBlock()
@@ -91,6 +92,7 @@ class Game:
         self.drawText('Next Block', 40, self.__Colors.get("WHITE"),(770, 700))
         self.drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
+        self.drawText(self.motion,100,self.__Colors.get('WHITE'),(100,100))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -342,3 +344,8 @@ class Game:
             self.__Map[i] = self.__Map[i+1]
         self.__Map[19] = [('1',self.__Colors['GRAY']) if block_space[i] == 1 else ('0',(0,0,0)) for i in range(10)]
         self.__screenUpdate()
+    ##--------------------------------------------------------------------------------------------##
+    ## 모션 텍스트 입력을 위해 모션 입력 받기
+    ##--------------------------------------------------------------------------------------------##
+    def set_motion(self, motion):
+        self.motion = motion

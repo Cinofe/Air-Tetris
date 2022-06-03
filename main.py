@@ -161,8 +161,7 @@ class Main:
                     self.retry = True
                 ## 모션으로 조정
                 self.Get_motion()
-                G.drawText(self.motion.get(self.motion_value),30,(255,255,255),(100,100))
-                pg.display.flip()
+                G.set_motion(self.motion.get(self.motion_value))
 
                 if t.time() - m_stime > m_delay:
                     if self.motion_value == 3:
