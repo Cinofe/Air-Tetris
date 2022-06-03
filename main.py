@@ -123,7 +123,7 @@ class Main:
 
             down_delay = 2
             up_block_delay = 10
-            m_delay = 0.3
+            m_delay = 0.2
 
             M = Menu()
             self.value = M.run()
