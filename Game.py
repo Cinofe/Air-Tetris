@@ -122,7 +122,6 @@ class Game:
     ## 텍스트 그리기
     ##---------------------------------------------------------------------------------------------##
     def drawText(self, str, size, color, pos):
-        self.__screen.fill(self.__Colors.get('BLACK'))
         self.__screen.blit(pg.font.Font(None, size).render(str,True,color),pos)
     ##---------------------------------------------------------------------------------------------##
     ## 맵 그려주기
