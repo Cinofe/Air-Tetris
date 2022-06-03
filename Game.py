@@ -88,9 +88,9 @@ class Game:
         self.__screen.fill(self.__Colors.get('BLACK'))
         self.__drawBackground()
         self.__drawMap()
-        self.__drawText('Next Block', 40, self.__Colors.get("WHITE"),(770, 700))
-        self.__drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
-        self.__drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
+        self.drawText('Next Block', 40, self.__Colors.get("WHITE"),(770, 700))
+        self.drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
+        self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -121,7 +121,7 @@ class Game:
     ##---------------------------------------------------------------------------------------------##
     ## 텍스트 그리기
     ##---------------------------------------------------------------------------------------------##
-    def __drawText(self, str, size, color, pos):
+    def drawText(self, str, size, color, pos):
         self.__screen.blit(pg.font.Font(None, size).render(str,True,color),pos)
     ##---------------------------------------------------------------------------------------------##
     ## 맵 그려주기

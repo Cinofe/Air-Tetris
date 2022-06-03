@@ -24,6 +24,7 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
+        self.motion = {0:'ready',1:'left',2:'right',3:'turn',4:'instant'}
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -156,6 +157,7 @@ class Main:
                 ## 모션으로 조정
                 self.Get_motion()
                 if t.time() - m_stime > m_delay:
+                    G.drawText(self.motion.get(self.motion_value),30,(255,255,255),(100,100))
                     if self.motion_value == 3:
                         G.Turnning()
                     elif self.motion_value == 5:
