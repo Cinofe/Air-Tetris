@@ -24,7 +24,7 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
-        self.motion = {0:'ready',1:'left',2:'right',3:'turn',4:'instant',-1:'Detect Fail'}
+        self.motion = {0:'READY',1:'LEFT',2:'RIGHT',3:'TURN',4:'DOWN',-1:'Detect Fail'}
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -125,11 +125,9 @@ class Main:
             # 타이머 설정
             d_stime = t.time()
             u_stime = t.time()
-            m_stime = t.time()
 
             down_delay = 2
             up_block_delay = 10
-            m_delay = 0.2
 
             M = Menu()
             self.value = M.run()
@@ -163,18 +161,15 @@ class Main:
                 self.Get_motion()
                 G.set_motion(self.motion.get(self.motion_value))
 
-                if t.time() - m_stime > m_delay:
-                    if self.motion_value == 3:
-                        G.Turnning()
-                    elif self.motion_value == 5:
-                        G.Move_Down()
-                    elif self.motion_value == 1:
-                        G.Move_Left()
-                    elif self.motion_value == 2:
-                        G.Move_Right()
-                    elif self.motion_value == 4:
-                        G.instant_down()
-                    m_stime = t.time()
+                if self.motion_value == 1:
+                    G.Move_Left()
+                elif self.motion_value == 2:
+                    G.Move_Right()
+                elif self.motion_value == 3:
+                    G.Turnning()
+                elif self.motion_value == 4:
+                    G.instant_down()
+                
                 ## 키입력 조정
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
