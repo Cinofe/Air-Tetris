@@ -117,11 +117,13 @@ class Main:
         while(not self.done):
             self.retry = False
             # 타이머 설정
-            d_start = t.time()
-            u_start = t.time()
+            d_stime = t.time()
+            u_stime = t.time()
+            m_stime = t.time()
 
             down_delay = 2
             up_block_delay = 10
+            m_delay = 0.3
 
             M = Menu()
             self.value = M.run()
@@ -139,9 +141,9 @@ class Main:
 
             G = Game(self.Best_Score)
             while(not self.retry):
-                if t.time() - d_start >= down_delay:
+                if t.time() - d_stime >= down_delay:
                     G.Move_Down()
-                    d_start = t.time()
+                    d_stime = t.time()
                 # if t.time() - u_start >= up_block_time:
                 #     G.Line_Plus()
                 #     u_start = t.time()
@@ -153,16 +155,18 @@ class Main:
                     self.retry = True
                 ## 모션으로 조정
                 self.Get_motion()
-                if self.motion_value == 3:
-                    G.Turnning()
-                elif self.motion_value == 5:
-                    G.Move_Down()
-                elif self.motion_value == 1:
-                    G.Move_Left()
-                elif self.motion_value == 2:
-                    G.Move_Right()
-                elif self.motion_value == 4:
-                    G.instant_down()
+                if t.time() - m_stime > m_delay:
+                    if self.motion_value == 3:
+                        G.Turnning()
+                    elif self.motion_value == 5:
+                        G.Move_Down()
+                    elif self.motion_value == 1:
+                        G.Move_Left()
+                    elif self.motion_value == 2:
+                        G.Move_Right()
+                    elif self.motion_value == 4:
+                        G.instant_down()
+                    m_stime = t.time()
                 ## 키입력 조정
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
