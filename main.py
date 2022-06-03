@@ -79,7 +79,6 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
-        self.sendData(self.Sock, self.encoded(self.motion))
         length = self.recvData(16).decode('utf-8')
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
     ##--------------------------------------------------------------------------------------------##
@@ -120,11 +119,9 @@ class Main:
             # 타이머 설정
             d_start = t.time()
             u_start = t.time()
-            m_start = t.time()
 
             down_delay = 2
             up_block_delay = 10
-            motion_delay = 0.1
 
             M = Menu()
             self.value = M.run()
@@ -155,19 +152,17 @@ class Main:
                     del G
                     self.retry = True
                 ## 모션으로 조정
-                if t.time() - m_start >= motion_delay:
-                    self.Get_motion()
-                    if self.motion_value == 3:
-                        G.Turnning()
-                    elif self.motion_value == 5:
-                        G.Move_Down()
-                    elif self.motion_value == 1:
-                        G.Move_Left()
-                    elif self.motion_value == 2:
-                        G.Move_Right()
-                    elif self.motion_value == 4:
-                        G.instant_down()
-                    m_start = t.time()
+                self.Get_motion()
+                if self.motion_value == 3:
+                    G.Turnning()
+                elif self.motion_value == 5:
+                    G.Move_Down()
+                elif self.motion_value == 1:
+                    G.Move_Left()
+                elif self.motion_value == 2:
+                    G.Move_Right()
+                elif self.motion_value == 4:
+                    G.instant_down()
                 ## 키입력 조정
                 for event in pg.event.get():
                     if event.type == pg.QUIT:
