@@ -110,7 +110,7 @@ class Main:
                 _, b_frame = cv2.imencode('.jpg',frame,encode_param)
                 b_frame = np.array(b_frame) 
                 self.sendData(self.StreamSock, b_frame)
-                cv2.waitKey(1)
+                cv2.waitKey(1000//60)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
