@@ -158,6 +158,7 @@ class Main:
                 self.Get_motion()
                 if t.time() - m_stime > m_delay:
                     G.drawText(self.motion.get(self.motion_value),30,(255,255,255),(100,100))
+                    pg.display.flip()
                     if self.motion_value == 3:
                         G.Turnning()
                     elif self.motion_value == 5:
