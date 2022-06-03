@@ -97,13 +97,14 @@ class Main:
             self.Error('stream Connect Error : ', e)
 
         cap = cv2.VideoCapture(cv2.CAP_V4L2)
-
+        stime = t.time()
+        
         while(not self.done):
             if self.value == False:
                 sys.exit()
             ret, frame = cap.read()
-            stime = t.time()
-            if (ret is True) and (stime > 1//40):
+            
+            if (ret is True) and ((t.time() - stime) > 1//40):
                 stime = t.time()
                 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
                 _, b_frame = cv2.imencode('.jpg',frame,encode_param)
