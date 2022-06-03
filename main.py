@@ -157,6 +157,7 @@ class Main:
                         self.Set_Bs()
                     del G
                     self.retry = True
+                    break
                 ## 모션으로 조정
                 self.Get_motion()
                 G.set_motion(self.motion.get(self.motion_value))
