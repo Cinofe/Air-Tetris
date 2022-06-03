@@ -24,7 +24,7 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
-        self.motion = {0:'ready',1:'left',2:'right',3:'turn',4:'instant'}
+        self.motion = {0:'ready',1:'left',2:'right',3:'turn',4:'instant',-1:'Detect Fail'}
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -80,7 +80,12 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
-        length = self.recvData(16).decode('utf-8')
+        try:
+            length = self.recvData(16).decode('utf-8')
+        except Exception as e:
+            self.Error('No Data Error : ', e)
+            self.retry = True
+            self.done = True
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -156,9 +161,10 @@ class Main:
                     self.retry = True
                 ## 모션으로 조정
                 self.Get_motion()
+                G.drawText(self.motion.get(self.motion_value),30,(255,255,255),(100,100))
+                pg.display.flip()
+
                 if t.time() - m_stime > m_delay:
-                    G.drawText(self.motion.get(self.motion_value),30,(255,255,255),(100,100))
-                    pg.display.flip()
                     if self.motion_value == 3:
                         G.Turnning()
                     elif self.motion_value == 5:
