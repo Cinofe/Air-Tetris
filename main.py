@@ -169,7 +169,7 @@ class Main:
                 # Turn, Instatn는 딱 한번만 입력 받기
                 # 이전 데이터와 겹치지 않을 때는 즉시 반영
                 G.set_motion(self.motion.get(self.motion_value))
-                
+
                 if self.prev_motion == 1 and self.motion_value == 1:
                     if t.time() - mo_stime > mo_delay:
                         G.Move_Left()
@@ -194,7 +194,7 @@ class Main:
                         G.instant_down()
                     mo_delay = 0.7
                 print(f'prev : {self.prev_motion}, now : {self.motion_value}')
-                self.prev_motion == self.motion_value
+                self.prev_motion = self.motion_value
                 
                 ## 키입력 조정
                 for event in pg.event.get():
