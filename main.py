@@ -24,6 +24,7 @@ class Main:
         self.Sock.connect((self.host, self.port))
         self.StreamSock = None
         self.motion_value = 0
+        self.prev_motion = 0
         self.motion = {0:'READY',1:'LEFT',2:'RIGHT',3:'TURN',4:'DOWN',-1:'Detect Fail'}
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
@@ -125,9 +126,12 @@ class Main:
             # 타이머 설정
             d_stime = t.time()
             u_stime = t.time()
+            mo_stime = t.time()
 
             down_delay = 2
             up_block_delay = 10
+            mo_delay = 0.7
+
 
             M = Menu()
             self.value = M.run()
@@ -160,16 +164,35 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
+                # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
+                # 0.2초마다 Move_Left 실행
+                # Turn, Instatn는 딱 한번만 입력 받기
+                # 이전 데이터와 겹치지 않을 때는 즉시 반영
                 G.set_motion(self.motion.get(self.motion_value))
-
-                if self.motion_value == 1:
-                    G.Move_Left()
-                elif self.motion_value == 2:
-                    G.Move_Right()
-                elif self.motion_value == 3:
-                    G.Turnning()
-                elif self.motion_value == 4:
-                    G.instant_down()
+                if self.prev_motion == 1 and self.motion_value == 1:
+                    if t.time() - mo_stime > mo_delay:
+                        G.Move_Left()
+                        mo_delay = 0.2
+                        mo_stime = t.time()
+                elif self.prev_motion == 2 and self.motion_value == 2:
+                    if t.time() - mo_stime > mo_delay:
+                        G.Move_Right()
+                        mo_delay = 0.2
+                        mo_stime = t.time()
+                elif self.prev_motion == 3 or self.prev_motion == 4:
+                    if self.motion_value == 3 or self.motion_value == 4:
+                        continue
+                else:
+                    if self.motion_value == 1:
+                        G.Move_Left()
+                    elif self.motion_value == 2:
+                        G.Move_Right()
+                    elif self.motion_value == 3:
+                        G.Turnning()
+                    elif self.motion_value == 4:
+                        G.instant_down()
+                    mo_delay = 0.7
+                self.prev_motion == self.motion_value
                 
                 ## 키입력 조정
                 for event in pg.event.get():
