@@ -1,4 +1,4 @@
-import pygame as pg, random as rd
+import pygame as pg, random as rd, os
 from screeninfo import get_monitors as gm
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
@@ -354,6 +354,7 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self):
-        img = pg.image.load(r'/home/pi/Desktop/Tetris/img/image.jpg')
-        self.__screen.blit(img,(600,50))
-        pg.display.flip()
+        print(os.getcwd())
+        # img = pg.image.load(r'/home/pi/Desktop/Tetris/img/image.jpg')
+        # self.__screen.blit(img,(600,50))
+        # pg.display.flip()
