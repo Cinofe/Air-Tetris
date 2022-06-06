@@ -88,6 +88,16 @@ class Main:
             self.retry = True
             self.done = True
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
+        try:
+            length = self.recvData(16).decode('utf-8')
+        except Exception as e:
+            self.Error('No Data Error : ', e)
+            self.retry = True
+            self.done = True
+        hand_box = self.recvData(int(length))
+        hand_box = [int(x.decode('utf-8')) for x in hand_box]
+        print(hand_box)
+
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
     ##--------------------------------------------------------------------------------------------##
@@ -193,7 +203,6 @@ class Main:
                     elif self.motion_value == 4:
                         G.instant_down()
                     mo_delay = 0.7
-                print(f'prev : {self.prev_motion}, now : {self.motion_value}')
                 self.prev_motion = self.motion_value
                 
                 ## 키입력 조정
