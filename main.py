@@ -89,16 +89,16 @@ class Main:
             self.retry = True
             self.done = True
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
-        try:
-            length = self.recvData(16).decode('utf-8')
-        except Exception as e:
-            self.Error('No Data Error : ', e)
-            self.retry = True
-            self.done = True
-        for _ in range(int(length)):
-            hand_box.append(self.recvData(length).decode('utf-8'))
-        
-        print(hand_box)
+
+        length = self.recvData(16).decode('utf-8')
+        req = self.recvData(int(length)).decode('utf-8')
+        if req == '4':
+            for _ in range(4):
+                length = self.recvData(16).decode('utf-8')
+                hand_box.append(self.recvData(int(length)).decode('utf-8'))
+            print(hand_box)
+
+
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
     ##--------------------------------------------------------------------------------------------##
