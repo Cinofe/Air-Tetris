@@ -130,7 +130,7 @@ class Main:
 
             down_delay = 2
             up_block_delay = 10
-            mo_delay = 0.7
+            mo_delay = 1
 
 
             M = Menu()
