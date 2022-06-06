@@ -102,6 +102,7 @@ class Main:
             b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
                 = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
             b_frame = cv2.resize(b_frame,(320,240),cv2.INTER_AREA)
+            cv2.imwrite(r'img/imge.jpg')
             cv2.imshow('',b_frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
