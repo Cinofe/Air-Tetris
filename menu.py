@@ -114,7 +114,7 @@ class Menu:
                     # if event.key == pg.K_ESCAPE:
                     #     return False
                     if event.key == pg.K_q:
-                        sys.exit()
+                        return False
                     if event.key == pg.K_UP:
                         if self.selected == 0:
                             self.selected = 1
