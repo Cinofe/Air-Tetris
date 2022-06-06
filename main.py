@@ -81,7 +81,6 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
-        hand_box = []
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -92,9 +91,11 @@ class Main:
 
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
+        print(req)
         if req == '4':
             try:
                 length = self.recvData(16).decode('utf-8')
+                print(length)
             except Exception as e:
                 self.Error('Stream No data Error : ',e)
                 th.exit()
@@ -102,11 +103,12 @@ class Main:
             data = self.recvData(int(length))
             data = np.frombuffer(data, dtype='uint8')
             self.frame = cv2.imdecode(data,1)
+            print(self.frame)
 
             cv2.imshow('a',self.frame)
             cv2.moveWindow('a',600,50)
             cv2.waitKey(1)
-            
+
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
