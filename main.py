@@ -122,6 +122,7 @@ class Main:
             if self.value == False:
                 sys.exit()
             ret, self.frame = cap.read()
+            self.frame = cv2.flip(self.frame,0)
             
             if (ret is True) and ((t.time() - stime) > 1//60):
                 stime = t.time()
