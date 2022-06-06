@@ -130,7 +130,7 @@ class Main:
 
             down_delay = 2
             up_block_delay = 10
-            mo_delay = 1
+            mo_delay = 1.5
 
 
             M = Menu()
@@ -173,12 +173,12 @@ class Main:
                 if self.prev_motion == 1 and self.motion_value == 1:
                     if t.time() - mo_stime > mo_delay:
                         G.Move_Left()
-                        mo_delay = 0.2
+                        mo_delay = 0.5
                         mo_stime = t.time()
                 elif self.prev_motion == 2 and self.motion_value == 2:
                     if t.time() - mo_stime > mo_delay:
                         G.Move_Right()
-                        mo_delay = 0.2
+                        mo_delay = 0.5
                         mo_stime = t.time()
                 elif self.prev_motion == 3 or self.prev_motion == 4:
                     if self.motion_value == 3 or self.motion_value == 4:
