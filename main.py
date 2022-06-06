@@ -113,6 +113,7 @@ class Main:
                 xw = 640
             if yh > 480:
                 yh = 480
+            self.frame = cv2.flip(self.frame,0)
             cv2.imshow('',self.frame[y:yh,x:xw])
             cv2.moveWindow('',500,0)
             cv2.waitKey(1)
