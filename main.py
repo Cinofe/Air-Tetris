@@ -176,9 +176,6 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
-                if any(self.hand_box):
-                    cv2.rectangle(self.frame,self.hand_box,(0,0,0),3)
-                G.call_image(self.frame)
                 # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
                 # 0.2초마다 Move_Left 실행
                 # Turn, Instatn는 딱 한번만 입력 받기
