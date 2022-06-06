@@ -97,7 +97,7 @@ class Game:
         self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(100,250))
         self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,250))
         if self.img != None:
-            self.__screen.blit(self.img,(600,50))
+            self.__screen.blit(self.img,(650,60))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -359,6 +359,7 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
         self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+        self.img = cv2.resize(self.img,(160,120),cv2.INTER_AREA)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
         self.__screen.blit(self.img,(650,60))

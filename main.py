@@ -101,7 +101,6 @@ class Main:
             frame = cv2.flip(frame,0)
             self.b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
                 = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
-            self.b_frame = cv2.resize(self.b_frame,(320,240),cv2.INTER_AREA)
             # cv2.imshow('',self.b_frame)
             # cv2.moveWindow('',600,50)
             cv2.waitKey(1)
