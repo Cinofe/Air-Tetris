@@ -26,6 +26,8 @@ class Main:
         self.motion_value = 0
         self.prev_motion = 0
         self.motion = {0:'READY',1:'LEFT',2:'RIGHT',3:'TURN',4:'DOWN',-1:'Detect Fail'}
+
+        self.hand_box = []
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -81,8 +83,7 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
-        hand_box = []
-        self.b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
+        self.hand_box = []
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -94,15 +95,9 @@ class Main:
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
-            frame = self.frame.copy()
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
-                hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
-            frame = cv2.flip(frame,0)
-            self.b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
-                = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
-            # cv2.imshow('',self.b_frame)
-            # cv2.moveWindow('',600,50)
+                self.hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
             cv2.waitKey(1)
 
     ##--------------------------------------------------------------------------------------------##
@@ -181,7 +176,7 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
-                G.call_image(self.b_frame)
+                G.call_image(self.frame, self.hand_box)
                 # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
                 # 0.2초마다 Move_Left 실행
                 # Turn, Instatn는 딱 한번만 입력 받기
