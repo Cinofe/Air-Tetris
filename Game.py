@@ -354,7 +354,6 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self):
-        print(os.getcwd())
-        img = pg.image.load(os.getcwd()+r'/img/image.jpg')
+        img = pg.image.load(r'/img/image.jpg')
         self.__screen.blit(img,(600,50))
         pg.display.flip()
