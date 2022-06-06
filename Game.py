@@ -95,9 +95,8 @@ class Game:
         self.drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
         self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(100,250))
-        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,300))
-        if os.path.exists(r'img/image.jpg'):
-            self.img = pg.image.load(r'img/image.jpg')
+        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,250))
+        if self.img != None:
             self.__screen.blit(self.img,(600,50))
         self.__drawPrevBlock()
         self.__drawNewBlock()
@@ -359,11 +358,11 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
-        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
-        img = cv2.flip(img,0)
-        test = np.rot90(img)
-        img = pg.surfarray.make_surface(test)
-        self.__screen.blit(img,(650,60))
+        self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+        self.img = cv2.flip(img,0)
+        self.test = np.rot90(img)
+        self.img = pg.surfarray.make_surface(self.img)
+        self.__screen.blit(self.img,(650,60))
         # if os.path.exists(r'img/image.jpg'):
         #     self.img = pg.image.load(r'img/image.jpg')
         #     print(self.img,type(self.img))

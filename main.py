@@ -82,7 +82,7 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
         hand_box = []
-        b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
+        self.b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -99,11 +99,10 @@ class Main:
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
             frame = cv2.flip(frame,0)
-            b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
+            self.b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
                 = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
-            b_frame = cv2.resize(b_frame,(320,240),cv2.INTER_AREA)
-            cv2.imwrite(r'img/image.jpg',b_frame)
-            # cv2.imshow('',b_frame)
+            self.b_frame = cv2.resize(self.b_frame,(320,240),cv2.INTER_AREA)
+            # cv2.imshow('',self.b_frame)
             # cv2.moveWindow('',600,50)
             cv2.waitKey(1)
 
@@ -183,7 +182,7 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
-                G.call_image(self.frame)
+                G.call_image(self.b_frame)
                 # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
                 # 0.2초마다 Move_Left 실행
                 # Turn, Instatn는 딱 한번만 입력 받기
