@@ -97,7 +97,7 @@ class Game:
         self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(100,250))
         self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,250))
         if self.img != None:
-            self.__screen.blit(self.img,(650,60))
+            self.__screen.blit(self.img,(700,200))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -364,7 +364,7 @@ class Game:
         cv2.rectangle(self.img,(0,0,320,240), (255,255,255),1)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
-        self.__screen.blit(self.img,(650,60))
+        self.__screen.blit(self.img,(700,200))
         # if os.path.exists(r'img/image.jpg'):
         #     self.img = pg.image.load(r'img/image.jpg')
         #     print(self.img,type(self.img))
