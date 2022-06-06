@@ -106,9 +106,6 @@ class Main:
             # cv2.imshow('',b_frame)
             # cv2.moveWindow('',600,50)
             cv2.waitKey(1)
-        else:
-            if os.path.exists(r'img/image.jpg'):
-                os.remove(r'img/image.jpg')
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -186,7 +183,7 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
-                G.call_image()
+                G.call_image(self.frame)
                 # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
                 # 0.2초마다 Move_Left 실행
                 # Turn, Instatn는 딱 한번만 입력 받기
