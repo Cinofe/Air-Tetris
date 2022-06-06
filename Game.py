@@ -1,3 +1,4 @@
+import cv2
 import pygame as pg, random as rd, os,numpy as np
 from screeninfo import get_monitors as gm
 from Case import Case
@@ -358,6 +359,8 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+        img = cv2.flip(img,0)
         test = np.rot90(img)
         img = pg.surfarray.make_surface(test)
         print(img)
