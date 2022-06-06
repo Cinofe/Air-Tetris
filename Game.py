@@ -95,8 +95,8 @@ class Game:
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
         self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(100,250))
         self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,300))
-        self.img = pg.image.load(r'img/image.jpg')
-        if self.img != None:
+        if os.path.exists(r'img/image.jpg'):
+            self.img = pg.image.load(r'img/image.jpg')
             self.__screen.blit(self.img,(600,50))
         self.__drawPrevBlock()
         self.__drawNewBlock()
@@ -358,6 +358,7 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self):
-        self.img = pg.image.load(r'img/image.jpg')
-        self.__screen.blit(self.img,(600,50))
+        if os.path.exists(r'img/image.jpg'):
+            self.img = pg.image.load(r'img/image.jpg')
+            self.__screen.blit(self.img,(600,50))
         pg.display.flip()
