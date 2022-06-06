@@ -93,13 +93,15 @@ class Main:
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
+            b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
             frame = self.frame.copy()
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
             frame = cv2.flip(frame,0)
-            
-            cv2.rectangle(frame, hand_box, (0,0,0),20)
+            b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
+                = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
+            cv2.rectangle(frame, hand_box, (0,0,0),2)
             cv2.imshow('',frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
