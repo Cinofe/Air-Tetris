@@ -98,7 +98,8 @@ class Main:
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
             frame = cv2.flip(frame,0)
-            cv2.rectangle(frame, hand_box, (0,0,0),2)
+            
+            cv2.rectangle(frame, hand_box, (0,0,0),20)
             cv2.imshow('',frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
