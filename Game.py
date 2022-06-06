@@ -355,6 +355,6 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     def call_image(self):
         print(os.getcwd())
-        # img = pg.image.load(r'/home/pi/Desktop/Tetris/img/image.jpg')
+        img = pg.image.load(os.getcwd()+r'/img/image.jpg')
         # self.__screen.blit(img,(600,50))
         # pg.display.flip()
