@@ -101,8 +101,8 @@ class Main:
             frame = cv2.flip(frame,0)
             b_frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]] \
                 = frame[hand_box[1]:hand_box[1]+hand_box[3],hand_box[0]:hand_box[0]+hand_box[2]].copy()
-            cv2.rectangle(frame, hand_box, (0,0,0),2)
-            cv2.imshow('',frame)
+            # cv2.rectangle(b_frame, hand_box, (0,0,0),2)
+            cv2.imshow('',b_frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
 
