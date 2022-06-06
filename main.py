@@ -82,6 +82,7 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
         hand_box = []
+        b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -93,7 +94,6 @@ class Main:
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
-            b_frame = np.full((480,640,3),(0,0,0),dtype=np.uint8)
             frame = self.frame.copy()
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
