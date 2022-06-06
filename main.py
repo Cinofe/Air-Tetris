@@ -94,7 +94,9 @@ class Main:
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
             cap2 = cv2.VideoCapture(cv2.CAP_V4L2)
-            _,frame = cap2.read()
+            ret ,frame = cap2.read()
+            if not ret:
+                print('faile capture')
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
