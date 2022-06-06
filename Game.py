@@ -94,8 +94,8 @@ class Game:
         self.drawText('Next Block', 40, self.__Colors.get("WHITE"),(770, 700))
         self.drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
-        # self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(120,250))
-        # self.drawText(self.motion,60,self.__Colors.get('WHITE'),(400,250))
+        self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(120,250))
+        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(400,250))
         if self.img != None:
             self.__screen.blit(self.img,(700,200))
         self.__drawPrevBlock()
@@ -354,9 +354,7 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     def set_motion(self, motion):
         self.motion = motion
-        self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(120,250))
-        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(400,250))
-        pg.display.flip()
+        self.__screenUpdate()
     ##--------------------------------------------------------------------------------------------##
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
@@ -368,9 +366,4 @@ class Game:
         cv2.rectangle(self.img,(0,0,320,240), (255,255,255),1)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
-        self.__screen.blit(self.img,(700,200))
-        # if os.path.exists(r'img/image.jpg'):
-        #     self.img = pg.image.load(r'img/image.jpg')
-        #     print(self.img,type(self.img))
-        #     self.__screen.blit(self.img,(600,50))
-        pg.display.flip()
+        self.__screenUpdate()
