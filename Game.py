@@ -94,8 +94,8 @@ class Game:
         self.drawText('Next Block', 40, self.__Colors.get("WHITE"),(770, 700))
         self.drawText('Best Score : '+ str(self.__BestScore), 55, self.__Colors.get('WHITE'),(700,860))
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
-        self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(120,250))
-        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(400,250))
+        # self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(120,250))
+        # self.drawText(self.motion,60,self.__Colors.get('WHITE'),(400,250))
         if self.img != None:
             self.__screen.blit(self.img,(700,200))
         self.__drawPrevBlock()
