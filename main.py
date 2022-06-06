@@ -93,31 +93,20 @@ class Main:
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
-            for _ in range(4):
+            try:
                 length = self.recvData(16).decode('utf-8')
-                hand_box.append(self.recvData(int(length)).decode('utf-8'))
+            except Exception as e:
+                self.Error('Stream No data Error : ',e)
+                th.exit()
 
-            x,y,w,h = list(map(int, hand_box))
-            if w < 320 or h < 240:
-                x -= 80
-                y -= 60
-                w += 160
-                h += 120
-            xw = x + w
-            yh = y + h
-            if x < 0 :
-                x = 0
-            if y < 0 :
-                y = 0
-            if xw > 640:
-                xw = 640
-            if yh > 480:
-                yh = 480
-            cv2.imshow('a',self.frame[y:yh,x:xw])
+            data = self.recvData(int(length))
+            data = np.frombuffer(data, dtype='uint8')
+            self.frame = cv2.imdecode(data,1)
+
+            cv2.imshow('a',self.frame)
             cv2.moveWindow('a',600,50)
             cv2.waitKey(1)
-        else:
-            cv2.destroyWindow('a')
+            
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -148,7 +137,6 @@ class Main:
                 b_frame = np.array(b_frame) 
                 self.sendData(self.StreamSock, b_frame)
                 cv2.waitKey(1)
-            self.frame = cv2.flip(self.frame,0)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
