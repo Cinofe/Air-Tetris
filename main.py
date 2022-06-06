@@ -26,6 +26,9 @@ class Main:
         self.motion_value = 0
         self.prev_motion = 0
         self.motion = {0:'READY',1:'LEFT',2:'RIGHT',3:'TURN',4:'DOWN',-1:'Detect Fail'}
+
+        self.M = Menu()
+        self.value = self.M.run()
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -87,6 +90,7 @@ class Main:
             self.Error('No Data Error : ', e)
             self.retry = True
             self.done = True
+            sys.exit()
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -101,6 +105,7 @@ class Main:
             self.StreamSock.connect((self.host,int(port)))
         except Exception as e:
             self.Error('stream Connect Error : ', e)
+            sys.exit()
 
         cap = cv2.VideoCapture(cv2.CAP_V4L2)
         stime = t.time()
@@ -132,20 +137,17 @@ class Main:
             up_block_delay = 10
             mo_delay = 1.5
 
-
-            M = Menu()
-            self.value = M.run()
             if self.value == False:
                 sys.exit()
             elif self.value == 1:
                 down_delay = 2
-                up_block_delay = 20
+                up_block_delay = 25
             elif self.value == 2:
                 down_delay = 1.7
-                up_block_delay = 15
+                up_block_delay = 20
             elif self.value == 3:
                 down_delay = 1.4
-                up_block_delay = 10
+                up_block_delay = 15
 
             G = Game(self.Best_Score)
             while(not self.retry):
@@ -203,7 +205,7 @@ class Main:
                         if event.key == pg.K_q :
                             self.retry = True
                             self.done = True
-                            return
+                            sys.exit()
                         # if event.key == pg.K_UP or self.motion_value == 1:
                         #     G.Turnning()
                         # if event.key == pg.K_DOWN or self.motion_value == 2:

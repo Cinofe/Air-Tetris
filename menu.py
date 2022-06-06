@@ -1,4 +1,4 @@
-import pygame as pg
+import pygame as pg, sys
 from screeninfo import get_monitors as gm
 ##-------------------------------------------------------------------------------------------------##
 ## 메뉴 UI 클래스
@@ -114,7 +114,7 @@ class Menu:
                     # if event.key == pg.K_ESCAPE:
                     #     return False
                     if event.key == pg.K_q:
-                        return False
+                        sys.exit()
                     if event.key == pg.K_UP:
                         if self.selected == 0:
                             self.selected = 1
