@@ -1,4 +1,4 @@
-import pygame as pg, random as rd, os
+import pygame as pg, random as rd, os,numpy as np
 from screeninfo import get_monitors as gm
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
@@ -358,8 +358,12 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
-        if os.path.exists(r'img/image.jpg'):
-            self.img = pg.image.load(r'img/image.jpg')
-            print(self.img)
-            self.__screen.blit(self.img,(600,50))
+        test = np.rot90(img)
+        img = pg.surfarray.make_surface(test)
+        print(img)
+        self.__screen.blit(img,(650,60))
+        # if os.path.exists(r'img/image.jpg'):
+        #     self.img = pg.image.load(r'img/image.jpg')
+        #     print(self.img,type(self.img))
+        #     self.__screen.blit(self.img,(600,50))
         pg.display.flip()
