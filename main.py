@@ -1,4 +1,4 @@
-import pygame as pg, time as t, cv2, numpy as np, sys, pickle as pk
+import pygame as pg, time as t, cv2, numpy as np, sys, os
 from threading import Thread as th
 from socket import *
 from Game import Game
@@ -106,6 +106,9 @@ class Main:
             # cv2.imshow('',b_frame)
             # cv2.moveWindow('',600,50)
             cv2.waitKey(1)
+        else:
+            if os.path.exists(r'img/image.jpg'):
+                os.remove(r'img/image.jpg')
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
