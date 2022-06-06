@@ -113,12 +113,11 @@ class Main:
                 xw = 640
             if yh > 480:
                 yh = 480
-            self.frame = cv2.flip(self.frame,0)
-            cv2.imshow('',self.frame[y:yh,x:xw])
-            cv2.moveWindow('',500,0)
+            cv2.imshow('a',self.frame[y:yh,x:xw])
+            cv2.moveWindow('a',600,50)
             cv2.waitKey(1)
         else:
-            cv2.destroyWindow('')
+            cv2.destroyWindow('a')
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -149,6 +148,7 @@ class Main:
                 b_frame = np.array(b_frame) 
                 self.sendData(self.StreamSock, b_frame)
                 cv2.waitKey(1)
+            self.frame = cv2.flip(self.frame,0)
     ##--------------------------------------------------------------------------------------------##
     ##  Tetris 실행 함수
     ##--------------------------------------------------------------------------------------------##
