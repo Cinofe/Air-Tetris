@@ -97,7 +97,7 @@ class Main:
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(self.recvData(int(length)).decode('utf-8'))
 
-            w,y,w,h = list(map(int, hand_box))
+            x,y,w,h = list(map(int, hand_box))
             if w < 320 or h < 240:
                 x -= 80
                 y -= 60
