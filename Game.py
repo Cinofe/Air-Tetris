@@ -359,6 +359,7 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
         self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
+        self.img = cv2.flip(self.img,1)
         self.img = cv2.resize(self.img,(160,120),cv2.INTER_AREA)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
