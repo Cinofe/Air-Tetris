@@ -95,8 +95,8 @@ class Main:
         if req == '4':
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
-                hand_box.append(self.recvData(int(length)).decode('utf-8'))
-
+                hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
+            cv2.rectangle(self.frame, hand_box, (0,0,0),2)
             cv2.imshow('',self.frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
