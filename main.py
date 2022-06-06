@@ -96,8 +96,28 @@ class Main:
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(self.recvData(int(length)).decode('utf-8'))
-            print(hand_box)
 
+            w,y,w,h = hand_box
+            if w < 320 or h < 240:
+                x -= 80
+                y -= 60
+                w += 160
+                h += 120
+            xw = x + w
+            yh = y + h
+            if x < 0 :
+                x = 0
+            if y < 0 :
+                y = 0
+            if xw > 640:
+                xw = 640
+            if yh > 480:
+                yh = 480
+            cv2.imshow('',self.frame[y:yh,x:xw])
+            cv2.moveWindow('',500,0)
+            cv2.waitKey(1)
+        else:
+            cv2.destroyWindow('')
 
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
@@ -119,12 +139,12 @@ class Main:
         while(not self.done):
             if self.value == False:
                 sys.exit()
-            ret, frame = cap.read()
+            ret, self.frame = cap.read()
             
             if (ret is True) and ((t.time() - stime) > 1//60):
                 stime = t.time()
                 encode_param = [int(cv2.IMWRITE_JPEG_QUALITY),90]
-                _, b_frame = cv2.imencode('.jpg',frame,encode_param)
+                _, b_frame = cv2.imencode('.jpg',self.frame,encode_param)
                 b_frame = np.array(b_frame) 
                 self.sendData(self.StreamSock, b_frame)
                 cv2.waitKey(1)
