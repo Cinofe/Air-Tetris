@@ -93,12 +93,14 @@ class Main:
         length = self.recvData(16).decode('utf-8')
         req = self.recvData(int(length)).decode('utf-8')
         if req == '4':
+            cap2 = cv2.VideoCapture(cv2.CAP_V4L2)
+            _,frame = cap2.read()
             for _ in range(4):
                 length = self.recvData(16).decode('utf-8')
                 hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
-            self.frame = cv2.flip(self.frame,0)
-            cv2.rectangle(self.frame, hand_box, (0,0,0),2)
-            cv2.imshow('',self.frame)
+            frame = cv2.flip(frame,0)
+            cv2.rectangle(frame, hand_box, (0,0,0),2)
+            cv2.imshow('',frame)
             cv2.moveWindow('',600,50)
             cv2.waitKey(1)
 
