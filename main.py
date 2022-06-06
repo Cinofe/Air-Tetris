@@ -26,8 +26,6 @@ class Main:
         self.motion_value = 0
         self.prev_motion = 0
         self.motion = {0:'READY',1:'LEFT',2:'RIGHT',3:'TURN',4:'DOWN',-1:'Detect Fail'}
-
-        self.hand_box = []
     ##--------------------------------------------------------------------------------------------##
     ##  Error 출력 함수
     ##--------------------------------------------------------------------------------------------##
@@ -83,7 +81,6 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
-        self.hand_box = []
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -91,15 +88,6 @@ class Main:
             self.retry = True
             self.done = True
         self.motion_value = int(self.recvData(int(length)).decode('utf-8'))
-
-        length = self.recvData(16).decode('utf-8')
-        req = self.recvData(int(length)).decode('utf-8')
-        if req == '4':
-            for _ in range(4):
-                length = self.recvData(16).decode('utf-8')
-                self.hand_box.append(int(self.recvData(int(length)).decode('utf-8')))
-            cv2.waitKey(1)
-
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
     ##--------------------------------------------------------------------------------------------##
@@ -176,21 +164,17 @@ class Main:
                     break
                 ## 모션으로 조정
                 self.Get_motion()
-                # Left, Right는 처음 입력 받고 다음에서 같은 데이터가 오면 0.7초 대기 후, 
-                # 0.2초마다 Move_Left 실행
-                # Turn, Instatn는 딱 한번만 입력 받기
-                # 이전 데이터와 겹치지 않을 때는 즉시 반영
                 G.set_motion(self.motion.get(self.motion_value))
 
                 if self.prev_motion == 1 and self.motion_value == 1:
                     if t.time() - mo_stime > mo_delay:
                         G.Move_Left()
-                        mo_delay = 0.5
+                        mo_delay = 0.3
                         mo_stime = t.time()
                 elif self.prev_motion == 2 and self.motion_value == 2:
                     if t.time() - mo_stime > mo_delay:
                         G.Move_Right()
-                        mo_delay = 0.5
+                        mo_delay = 0.3
                         mo_stime = t.time()
                 elif self.prev_motion == 3 or self.prev_motion == 4:
                     if self.motion_value == 3 or self.motion_value == 4:
