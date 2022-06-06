@@ -361,7 +361,7 @@ class Game:
         self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         self.img = cv2.flip(self.img,1)
         self.img = cv2.resize(self.img,(160,120),cv2.INTER_AREA)
-        cv2.rectangle(self.b_frame,(0,0,160,120), (255,255,255),2)
+        cv2.rectangle(self.img,(0,0,160,120), (255,255,255),2)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
         self.__screen.blit(self.img,(650,60))
