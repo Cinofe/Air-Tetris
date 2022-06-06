@@ -78,6 +78,7 @@ class Game:
         self.Score = 0
         self.__BestScore = Best_Score
         self.motion = ''
+        self.img = None
 
         self.__createPrevBlock()
         self.__createNewBlock()
@@ -94,6 +95,8 @@ class Game:
         self.drawText('Score : ' + str(self.Score), 55, self.__Colors.get('WHITE'),(700,960))
         self.drawText('NOW STATE : ',60,self.__Colors.get('WHITE'),(100,300))
         self.drawText(self.motion,60,self.__Colors.get('WHITE'),(380,300))
+        if self.img != None:
+            self.__screen.blit(self.img,(600,50))
         self.__drawPrevBlock()
         self.__drawNewBlock()
         pg.display.flip()
@@ -354,6 +357,4 @@ class Game:
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
     def call_image(self):
-        img = pg.image.load(r'img/image.jpg')
-        self.__screen.blit(img,(600,50))
-        pg.display.flip()
+        self.img = pg.image.load(r'img/image.jpg')
