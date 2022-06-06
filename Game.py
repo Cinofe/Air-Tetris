@@ -359,8 +359,8 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     def call_image(self, img):
         self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
-        self.img = cv2.flip(img,0)
-        self.test = np.rot90(img)
+        self.img = cv2.flip(self.img,0)
+        self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
         self.__screen.blit(self.img,(650,60))
         # if os.path.exists(r'img/image.jpg'):
