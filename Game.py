@@ -363,7 +363,6 @@ class Game:
         img = cv2.flip(img,0)
         test = np.rot90(img)
         img = pg.surfarray.make_surface(test)
-        print(img)
         self.__screen.blit(img,(650,60))
         # if os.path.exists(r'img/image.jpg'):
         #     self.img = pg.image.load(r'img/image.jpg')
