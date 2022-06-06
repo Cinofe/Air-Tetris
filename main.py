@@ -1,4 +1,4 @@
-import pygame as pg, time as t, cv2, numpy as np, sys
+import pygame as pg, time as t, cv2, numpy as np, sys, pickle as pk
 from threading import Thread as th
 from socket import *
 from Game import Game
@@ -81,6 +81,7 @@ class Main:
     ##  Server로부터 motion정보를 받아오는 함수
     ##--------------------------------------------------------------------------------------------##
     def Get_motion(self):
+        hand_box = []
         try:
             length = self.recvData(16).decode('utf-8')
         except Exception as e:
@@ -94,10 +95,10 @@ class Main:
             self.Error('No Data Error : ', e)
             self.retry = True
             self.done = True
-        hand_box = self.recvData(int(length))
-        hand_box = [int(x.decode('utf-8')) for x in hand_box]
+        for _ in range(int(length)):
+            hand_box.append(self.recvData(length).decode('utf-8'))
+        
         print(hand_box)
-
     ##--------------------------------------------------------------------------------------------##
     ##  server와 Streaming 연결 하는 함수
     ##--------------------------------------------------------------------------------------------##
