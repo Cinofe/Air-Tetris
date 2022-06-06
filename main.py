@@ -161,7 +161,6 @@ class Main:
                     if self.Best_Score < G.Score:
                         self.Best_Score = G.Score
                         self.Set_Bs()
-                    del G
                     self.retry = True
                     break
                 ## 모션으로 조정
@@ -217,7 +216,8 @@ class Main:
                         # if event.key == pg.K_SPACE or self.motion_value == 5:
                         #     G.instant_down()
                         if event.key == pg.K_r:
-                            del G
+                            self.M = Menu()
+                            self.value = self.M.run()
                             self.retry = True
     ##--------------------------------------------------------------------------------------------##
     ##  프로그램 시작
