@@ -357,15 +357,12 @@ class Game:
     ##--------------------------------------------------------------------------------------------##
     ## 이미지 불러오기
     ##--------------------------------------------------------------------------------------------##
-    def call_image(self, img, hand_box):
+    def call_image(self, img):
         self.img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         self.img = cv2.flip(self.img,0)
         self.img = cv2.flip(self.img,1)
         self.img = cv2.resize(self.img,(320,240),cv2.INTER_AREA)
         cv2.rectangle(self.img,(0,0,320,240), (255,255,255),1)
-        if any(hand_box):
-            x,y,w,h = hand_box
-            cv2.rectangle(self.img,(w,h,x,y),(0,0,0,),1)
         self.img = np.rot90(self.img)
         self.img = pg.surfarray.make_surface(self.img)
         self.__screen.blit(self.img,(700,200))
