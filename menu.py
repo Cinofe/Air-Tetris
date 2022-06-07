@@ -1,4 +1,4 @@
-import pygame as pg, sys
+import pygame as pg, sys, RPi.GPIO as GPIO
 from screeninfo import get_monitors as gm
 from notice import Notice
 ##-------------------------------------------------------------------------------------------------##
@@ -10,6 +10,14 @@ class Menu:
         N.run()
         pg.init()
         pg.display.set_caption('Tetris')
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(27,GPIO.IN)
+        GPIO.setup(22,GPIO.IN)
+        GPIO.setup(17,GPIO.IN)
+        GPIO.setup(23,GPIO.IN)
+        GPIO.setup(24,GPIO.IN)
+
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
         self.__hw, self.__hh = self.__sw//2,self.__sh//2
@@ -105,41 +113,37 @@ class Menu:
     ##---------------------------------------------------------------------------------------------##
     def run(self):
         while(True):
+            if GPIO.input(27):
+                if self.selected == 0:
+                    self.selected = 1
+                else:
+                    self.selected -= 1
+                self.update()
+            if GPIO.input(22):
+                if self.selected == 1:
+                    self.selected = 0
+                else :
+                    self.selected += 1
+                self.update()
+            if GPIO.input(23):
+                if self.selected == 0:
+                    if self.level > 1:
+                        self.level -= 1
+                self.update()
+            if GPIO.input(24):
+                if self.selected == 0:
+                    if self.level < 3:
+                        self.level += 1
+                self.update()
+            if GPIO.input(17):
+                if self.selected == 1:
+                    return self.level
+                elif self.selected == 2:
+                    return False
+            
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return False
-                if event.type == pg.KEYDOWN:
-                    # if event.key == pg.K_ESCAPE:
-                    #     return False
-                    if event.key == pg.K_q:
-                        return False
-                    if event.key == pg.K_UP:
-                        if self.selected == 0:
-                            self.selected = 1
-                        else:
-                            self.selected -= 1
-                        self.update()
-                    if event.key == pg.K_DOWN:
-                        if self.selected == 1:
-                            self.selected = 0
-                        else :
-                            self.selected += 1
-                        self.update()
-                    if event.key == pg.K_LEFT:
-                        if self.selected == 0:
-                            if self.level > 1:
-                                self.level -= 1
-                        self.update()
-                    if event.key == pg.K_RIGHT:
-                        if self.selected == 0:
-                            if self.level < 3:
-                                self.level += 1
-                        self.update()
-                    if event.key == pg.K_RETURN:
-                        if self.selected == 1:
-                            return self.level
-                        elif self.selected == 2:
-                            return False
             self.update()
 
 if __name__ == '__main__':
