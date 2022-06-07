@@ -154,7 +154,7 @@ class Main:
                 if t.time() - d_stime >= down_delay:
                     G.Move_Down()
                     d_stime = t.time()
-                if t.time() - u_start >= up_block_time:
+                if t.time() - u_start >= up_block_delay:
                     G.Line_Plus()
                     u_start = t.time()
                 if G.GAME_OVER():
