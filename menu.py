@@ -121,31 +121,39 @@ class Menu:
                 else:
                     self.selected -= 1
                 self.update()
-            if not(GPIO.input(22)) and pushed == 0:
+            elif not(GPIO.input(22)) and pushed == 0:
+                pushed = 1
                 if self.selected == 1:
                     self.selected = 0
                 else :
                     self.selected += 1
                 self.update()
-            if not(GPIO.input(23)) and pushed == 0:
+            elif not(GPIO.input(23)) and pushed == 0:
+                pushed = 1
                 if self.selected == 0:
                     if self.level > 1:
                         self.level -= 1
                 self.update()
-            if not(GPIO.input(24)) and pushed == 0:
+            elif not(GPIO.input(24)) and pushed == 0:
+                pushed = 1
                 if self.selected == 0:
                     if self.level < 3:
                         self.level += 1
                 self.update()
-            if not(GPIO.input(17)) and pushed == 0:
+            elif not(GPIO.input(17)) and pushed == 0:
+                pushed = 1
                 if self.selected == 1:
                     return self.level
                 elif self.selected == 2:
                     return False
-            pushed = 0
+            else:
+                pushed = 0
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return False
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_q:
+                        return False
             self.update()
 
 if __name__ == '__main__':
