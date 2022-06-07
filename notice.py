@@ -19,7 +19,7 @@ class Notice:
             "   왼쪽   이동 : 손등이 정면을 보게하여 손끝이 왼쪽",
             "   블럭   회전 : 손바닥이 정면을 보게하여 손끝이 위로",
             "   블럭 내리기 : 손등이 정면을 보게하여 손끝이 아래로",
-            "   메뉴   제어 : 아래 바향 버튼을 눌러 조정",
+            "   메뉴   제어 : 아래 방향 버튼과 가운데 버튼을 눌러 조정",
             "   모두 읽었다면 가운데 버튼을 눌러 게임 시작"
         ]
     def update(self):
@@ -28,9 +28,9 @@ class Notice:
         pg.display.update()
 
     def draw_text(self):
-        self.screen.blit(pg.font.SysFont('undotum',100).render(self.title, True, (255,255,255)),(self.__hw+40,self.__hh))
+        self.screen.blit(pg.font.SysFont('undotum',100).render(self.title, True, (255,255,255)),(self.__hw+35,self.__hh))
         for i, explanation in enumerate(self.explanations):
-            self.screen.blit(pg.font.SysFont('undotum',35).render(explanation, True, (255,255,255)),(self.__hw-250,self.__hh+100+(80*(i+1))))
+            self.screen.blit(pg.font.SysFont('undotum',35).render(explanation, True, (255,255,255)),(self.__hw-270,self.__hh+100+(80*(i+1))))
 
     def run(self):
         done = False
