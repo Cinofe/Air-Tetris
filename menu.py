@@ -1,4 +1,4 @@
-import pygame as pg, sys, RPi.GPIO as GPIO
+import pygame as pg, RPi.GPIO as GPIO, time as t
 from screeninfo import get_monitors as gm
 from notice import Notice
 ##-------------------------------------------------------------------------------------------------##
@@ -114,6 +114,7 @@ class Menu:
     def run(self):
         pushed = 0
         while(True):
+            t.sleep(0.3)
             if not(GPIO.input(27)) and pushed == 0:
                 pushed = 1
                 if self.selected == 0:
