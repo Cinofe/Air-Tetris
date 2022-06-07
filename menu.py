@@ -113,29 +113,29 @@ class Menu:
     ##---------------------------------------------------------------------------------------------##
     def run(self):
         while(True):
-            if GPIO.input(27):
+            if not(GPIO.input(27)):
                 if self.selected == 0:
                     self.selected = 1
                 else:
                     self.selected -= 1
                 self.update()
-            if GPIO.input(22):
+            if not(GPIO.input(22)):
                 if self.selected == 1:
                     self.selected = 0
                 else :
                     self.selected += 1
                 self.update()
-            if GPIO.input(23):
+            if not(GPIO.input(23)):
                 if self.selected == 0:
                     if self.level > 1:
                         self.level -= 1
                 self.update()
-            if GPIO.input(24):
+            if not(GPIO.input(24)):
                 if self.selected == 0:
                     if self.level < 3:
                         self.level += 1
                 self.update()
-            if GPIO.input(17):
+            if not(GPIO.input(17)):
                 if self.selected == 1:
                     return self.level
                 elif self.selected == 2:
