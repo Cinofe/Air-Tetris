@@ -15,7 +15,7 @@ class Menu:
         self.selected = 1
         self.fontSize = 200
         self.Levels = {1:'EASY',2:'NORMAL',3:'HARD'}
-        self.font = pg.font.Font(None, self.fontSize)
+        self.font = pg.font.SysFont('malgungothic', self.fontSize)
 
         self.levelText = self.font.render(self.Levels.get(self.level), True, (255,255,255))
         self.playText = self.font.render("PLAY", True, (255,255,255))
@@ -29,11 +29,6 @@ class Menu:
                             (self.rect_playBox, self.playText),
                             (self.rect_quitBox, self.quitText)]
         self.update()
-    ##---------------------------------------------------------------------------------------------##
-    ## 종료
-    ##---------------------------------------------------------------------------------------------##
-    def exit(self):
-        self.doen = True
     ##---------------------------------------------------------------------------------------------##
     ## 화면 업데이트
     ##---------------------------------------------------------------------------------------------##
@@ -85,11 +80,11 @@ class Menu:
                     self.rect_levelBox.centery - self.levelText.get_height()//2)
         playPos = (self.rect_playBox.centerx - self.playText.get_width()//2,
                     self.rect_playBox.centery - self.playText.get_height()//2)
-        quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
-                    self.rect_quitBox.centery - self.quitText.get_height()//2)
+        # quitPos = (self.rect_quitBox.centerx - self.quitText.get_width()//2,
+        #             self.rect_quitBox.centery - self.quitText.get_height()//2)
         self.screen.blit(self.levelText, levelPos)
         self.screen.blit(self.playText, playPos)
-        self.screen.blit(self.quitText, quitPos)
+        # self.screen.blit(self.quitText, quitPos)
 
     ##---------------------------------------------------------------------------------------------##
     ## 선택지 이동 그리기
