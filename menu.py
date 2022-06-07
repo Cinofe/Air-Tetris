@@ -114,7 +114,7 @@ class Menu:
     def run(self):
         pushed = 0
         while(True):
-            t.sleep(0.3)
+            t.sleep(0.1)
             if not(GPIO.input(27)) and pushed == 0:
                 pushed = 1
                 if self.selected == 0:
