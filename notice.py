@@ -38,7 +38,7 @@ class Notice:
     def draw_text(self):
         self.screen.blit(pg.font.SysFont('undotum',100).render(self.title, True, (255,255,255)),(self.__hw,150))
         for i, explanation in enumerate(self.explanations):
-            self.screen.blit(pg.font.SysFont('undotum',50).render(explanation, True, (255,255,255)),(self.__hw-150,240+(60*(i+1))))
+            self.screen.blit(pg.font.SysFont('undotum',50).render(explanation, True, (255,255,255)),(self.__hw-150,240+(80*(i+1))))
 
     def run(self):
         done = False
