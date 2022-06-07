@@ -11,12 +11,18 @@ class Menu:
         pg.init()
         pg.display.set_caption('Tetris')
 
+        self.__up = 27
+        self.__down = 22
+        self.__center = 17
+        self.__left = 23
+        self.__right = 24
+
         GPIO.setmode(GPIO.BCM)
-        GPIO.setup(27,GPIO.IN)
-        GPIO.setup(22,GPIO.IN)
-        GPIO.setup(17,GPIO.IN)
-        GPIO.setup(23,GPIO.IN)
-        GPIO.setup(24,GPIO.IN)
+        GPIO.setup(self.__up,GPIO.IN)
+        GPIO.setup(self.__down,GPIO.IN)
+        GPIO.setup(self.__center,GPIO.IN)
+        GPIO.setup(self.__left,GPIO.IN)
+        GPIO.setup(self.__right,GPIO.IN)
 
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
@@ -115,33 +121,35 @@ class Menu:
         pushed = 0
         while(True):
             t.sleep(0.1)
-            if not(GPIO.input(27)) and pushed == 0:
+            if not(GPIO.input(self.__up)) and not(GPIO.input(self.__left)) and not(GPIO.input(self.__right)):
+                return False
+            if not(GPIO.input(self.__up)) and pushed == 0:
                 pushed = 1
                 if self.selected == 0:
                     self.selected = 1
                 else:
                     self.selected -= 1
                 self.update()
-            elif not(GPIO.input(22)) and pushed == 0:
+            elif not(GPIO.input(self.__down)) and pushed == 0:
                 pushed = 1
                 if self.selected == 1:
                     self.selected = 0
                 else :
                     self.selected += 1
                 self.update()
-            elif not(GPIO.input(23)) and pushed == 0:
+            elif not(GPIO.input(self.__left)) and pushed == 0:
                 pushed = 1
                 if self.selected == 0:
                     if self.level > 1:
                         self.level -= 1
                 self.update()
-            elif not(GPIO.input(24)) and pushed == 0:
+            elif not(GPIO.input(self.__right)) and pushed == 0:
                 pushed = 1
                 if self.selected == 0:
                     if self.level < 3:
                         self.level += 1
                 self.update()
-            elif not(GPIO.input(17)) and pushed == 0:
+            elif not(GPIO.input(self.__center)) and pushed == 0:
                 pushed = 1
                 if self.selected == 1:
                     return self.level
