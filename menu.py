@@ -1,10 +1,13 @@
 import pygame as pg, sys
 from screeninfo import get_monitors as gm
+from notice import Notice
 ##-------------------------------------------------------------------------------------------------##
 ## 메뉴 UI 클래스
 ##-------------------------------------------------------------------------------------------------##
 class Menu:
     def __init__(self):
+        N = Notice()
+        N.run()
         pg.init()
         pg.display.set_caption('Tetris')
         self.__si = gm()
