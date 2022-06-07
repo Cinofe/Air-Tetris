@@ -112,35 +112,37 @@ class Menu:
     ## 메뉴 화면 실행
     ##---------------------------------------------------------------------------------------------##
     def run(self):
+        pushed = 0
         while(True):
-            if not(GPIO.input(27)):
+            if not(GPIO.input(27)) and pushed == 0:
+                pushed = 1
                 if self.selected == 0:
                     self.selected = 1
                 else:
                     self.selected -= 1
                 self.update()
-            if not(GPIO.input(22)):
+            if not(GPIO.input(22)) and pushed == 0:
                 if self.selected == 1:
                     self.selected = 0
                 else :
                     self.selected += 1
                 self.update()
-            if not(GPIO.input(23)):
+            if not(GPIO.input(23)) and pushed == 0:
                 if self.selected == 0:
                     if self.level > 1:
                         self.level -= 1
                 self.update()
-            if not(GPIO.input(24)):
+            if not(GPIO.input(24)) and pushed == 0:
                 if self.selected == 0:
                     if self.level < 3:
                         self.level += 1
                 self.update()
-            if not(GPIO.input(17)):
+            if not(GPIO.input(17)) and pushed == 0:
                 if self.selected == 1:
                     return self.level
                 elif self.selected == 2:
                     return False
-            
+            pushed = 0
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return False
