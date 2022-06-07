@@ -1,11 +1,14 @@
-import pygame as pg
-import RPi.GPIO as GPIO
+import pygame as pg, RPi.GPIO as GPIO, time as t
 from screeninfo import get_monitors as gm
 
 class Notice:
     def __init__(self):
         pg.init()
         pg.display.set_caption('Tetris')
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(17,GPIO.IN)
+
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
         self.__hw, self.__hh = self.__sw//3,self.__sh//4
@@ -35,6 +38,9 @@ class Notice:
     def run(self):
         done = False
         while(not done):
+            t.sleep(0.1)
+            if not(GPIO.input(17)):
+                done = True
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     done = True
