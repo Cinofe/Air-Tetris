@@ -8,7 +8,7 @@ class Notice:
         pg.display.set_caption('Tetris')
         self.__si = gm()
         self.__sh, self.__sw = self.__si[0].height, self.__si[0].width
-        self.__hw, self.__hh = self.__sw//2,self.__sh//2
+        self.__hw, self.__hh = self.__sw//3,self.__sh//2
         self.screen = pg.display.set_mode([self.__sw, self.__sh],pg.FULLSCREEN)
 
         self.title = "필    독"
@@ -28,7 +28,7 @@ class Notice:
             "손등이 정면을 보게하여",
             "손끝이 왼쪽을 향하게 하면",
             "블럭이 왼쪽으로 이동",
-            "모두 읽었다면 초록 버튼 누르기"
+            "모두 읽었다면 가운데 버튼 누르기"
         ]
     def update(self):
         self.screen.fill((0,0,0))
@@ -36,9 +36,9 @@ class Notice:
         pg.display.update()
 
     def draw_text(self):
-        self.screen.blit(pg.font.SysFont('undotum',80).render(self.title, True, (255,255,255)),(50,50))
+        self.screen.blit(pg.font.SysFont('undotum',100).render(self.title, True, (255,255,255)),(self.__hw,150))
         for i, explanation in enumerate(self.explanations):
-            self.screen.blit(pg.font.SysFont('undotum',40).render(explanation, True, (255,255,255)),(50,100+(60*(i+1))))
+            self.screen.blit(pg.font.SysFont('undotum',60).render(explanation, True, (255,255,255)),(self.__hw,200+(60*(i+1))))
 
     def run(self):
         done = False
