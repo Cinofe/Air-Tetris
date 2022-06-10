@@ -128,7 +128,6 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
         while(not self.done):
-            _th.start_new_thread(self.Streaming,(0,))
             self.retry = False
             # 타이머 설정
             d_stime = t.time()
@@ -231,15 +230,15 @@ class Main:
         print('running')
         self.Get_Bs()
 
-        # t1 = th(target=self.Streaming)
-        # t1.daemon = True
-        # t1.start()
+        t1 = th(target=self.Streaming)
+        t1.daemon = True
+        t1.start()
 
         t2 = th(target=self.start_Game)
         t2.daemon = True
         t2.start()
 
-        # t1.join()
+        t1.join()
         t2.join()
 
 
