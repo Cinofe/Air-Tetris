@@ -38,14 +38,16 @@ class Notice:
     def run(self):
         done = False
         while(not done):
-            t.sleep(0.1)
-            if not(GPIO.input(17)):
-                done = True
+            # t.sleep(0.1)
+            # if not(GPIO.input(17)):
+            #     done = True
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     done = True
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_ESCAPE:
+                        done = True
+                    if event.key == pg.K_SPACE:
                         done = True
             self.update()
 
