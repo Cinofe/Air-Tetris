@@ -128,7 +128,7 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
         while(not self.done):
-            _th.start_new_thread(self.Streaming,(None))
+            _th.start_new_thread(self.Streaming,(,))
             self.retry = False
             # 타이머 설정
             d_stime = t.time()
