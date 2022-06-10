@@ -17,7 +17,7 @@ class Main:
         self.Set = '2'
         self.stream = '3'
         self.motion = '4'
-        self.host = '172.20.10.10'
+        self.host = '192.168.164.155'
         # self.host = '192.168.0.6'
         self.port = 10000
         self.Sock = socket(AF_INET, SOCK_STREAM)
