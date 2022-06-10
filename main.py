@@ -167,8 +167,7 @@ class Main:
                     self.value = self.M.run()
                     self.retry = True
                     self.StreamSock.close()
-                    
-                    break
+                    _th.exit()
                 ## 모션으로 조정
                 self.Get_motion()
                 G.set_motion(self.motion.get(self.motion_value))
