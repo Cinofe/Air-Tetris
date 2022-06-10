@@ -1,5 +1,6 @@
 import pygame as pg, time as t, cv2, numpy as np, sys, os
 from threading import Thread as th
+import _thread as _th
 from socket import *
 from Game import Game
 from menu import Menu
@@ -127,6 +128,7 @@ class Main:
     ##--------------------------------------------------------------------------------------------##
     def start_Game(self):
         while(not self.done):
+            _th.start_new_thread(self.Streaming)
             self.retry = False
             # 타이머 설정
             d_stime = t.time()
@@ -165,6 +167,7 @@ class Main:
                     self.value = self.M.run()
                     self.retry = True
                     self.StreamSock.close()
+                    
                     break
                 ## 모션으로 조정
                 self.Get_motion()
@@ -229,15 +232,15 @@ class Main:
         print('running')
         self.Get_Bs()
 
-        t1 = th(target=self.Streaming)
-        t1.daemon = True
-        t1.start()
+        # t1 = th(target=self.Streaming)
+        # t1.daemon = True
+        # t1.start()
 
         t2 = th(target=self.start_Game)
         t2.daemon = True
         t2.start()
 
-        t1.join()
+        # t1.join()
         t2.join()
 
 
