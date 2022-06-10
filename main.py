@@ -164,6 +164,7 @@ class Main:
                     self.M = Menu()
                     self.value = self.M.run()
                     self.retry = True
+                    self.StreamSock.close()
                     break
                 ## 모션으로 조정
                 self.Get_motion()

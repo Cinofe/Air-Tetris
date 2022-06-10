@@ -120,49 +120,72 @@ class Menu:
     def run(self):
         pushed = 0
         while(True):
-            t.sleep(0.1)
-            if not(GPIO.input(self.__up)) and not(GPIO.input(self.__left)) and not(GPIO.input(self.__right)):
-                return False
-            if not(GPIO.input(self.__up)) and pushed == 0:
-                pushed = 1
-                if self.selected == 0:
-                    self.selected = 1
-                else:
-                    self.selected -= 1
-                self.update()
-            elif not(GPIO.input(self.__down)) and pushed == 0:
-                pushed = 1
-                if self.selected == 1:
-                    self.selected = 0
-                else :
-                    self.selected += 1
-                self.update()
-            elif not(GPIO.input(self.__left)) and pushed == 0:
-                pushed = 1
-                if self.selected == 0:
-                    if self.level > 1:
-                        self.level -= 1
-                self.update()
-            elif not(GPIO.input(self.__right)) and pushed == 0:
-                pushed = 1
-                if self.selected == 0:
-                    if self.level < 3:
-                        self.level += 1
-                self.update()
-            elif not(GPIO.input(self.__center)) and pushed == 0:
-                pushed = 1
-                if self.selected == 1:
-                    return self.level
-                elif self.selected == 2:
-                    return False
-            else:
-                pushed = 0
+            # t.sleep(0.1)
+            # if not(GPIO.input(self.__up)) and not(GPIO.input(self.__left)) and not(GPIO.input(self.__right)):
+            #     return False
+            # if not(GPIO.input(self.__up)) and pushed == 0:
+            #     pushed = 1
+            #     if self.selected == 0:
+            #         self.selected = 1
+            #     else:
+            #         self.selected -= 1
+            #     self.update()
+            # elif not(GPIO.input(self.__down)) and pushed == 0:
+            #     pushed = 1
+            #     if self.selected == 1:
+            #         self.selected = 0
+            #     else :
+            #         self.selected += 1
+            #     self.update()
+            # elif not(GPIO.input(self.__left)) and pushed == 0:
+            #     pushed = 1
+            #     if self.selected == 0:
+            #         if self.level > 1:
+            #             self.level -= 1
+            #     self.update()
+            # elif not(GPIO.input(self.__right)) and pushed == 0:
+            #     pushed = 1
+            #     if self.selected == 0:
+            #         if self.level < 3:
+            #             self.level += 1
+            #     self.update()
+            # elif not(GPIO.input(self.__center)) and pushed == 0:
+            #     pushed = 1
+            #     if self.selected == 1:
+            #         return self.level
+            #     elif self.selected == 2:
+            #         return False
+            # else:
+            #     pushed = 0
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     return False
                 if event.type == pg.KEYDOWN:
                     if event.key == pg.K_q:
                         return False
+                    if event.key == pg.K_UP:
+                        if self.selected == 0:
+                            self.selected = 1
+                        else:
+                            self.selected -= 1
+                    if event.key == pg.K_DOWN:
+                        if self.selected == 1:
+                            self.selected = 0
+                        else :
+                            self.selected += 1
+                    if event.key == pg.K_LEFT:
+                        if self.selected == 0:
+                            if self.level > 1:
+                                self.level -= 1
+                    if event.key == pg.K_RIGHT:
+                        if self.selected == 0:
+                            if self.level < 3:
+                                self.level += 1
+                    if event.key == pg.K_SPACE:
+                        if self.selected == 1:
+                            return self.level
+                        elif self.selected == 2:
+                            return False
             self.update()
 
 if __name__ == '__main__':
