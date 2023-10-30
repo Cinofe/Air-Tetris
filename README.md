@@ -1,4 +1,4 @@
-# Tetris
+# Motion Tetris
 
 # Hand Tracking
 - Using Mediapipe
