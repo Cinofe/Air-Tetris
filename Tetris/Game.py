@@ -351,8 +351,3 @@ class Game:
     def set_motion(self, motion):
         self.motion = motion
         self.__screenUpdate()
-
-if __name__ == "__main__":
-    from newMain import Main
-    main = Main()
-    main.run()
