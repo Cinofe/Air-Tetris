@@ -1,5 +1,4 @@
-import pygame as pg, random as rd, os,numpy as np
-from screeninfo import get_monitors as gm
+import pygame as pg, random as rd
 from Case import Case
 ##-------------------------------------------------------------------------------------------------##
 ## 게임 클래스
@@ -9,9 +8,6 @@ class Game:
         pg.init()
         pg.key.set_repeat(400,200)
         pg.display.set_caption('Tetris')
-        self.__screenInfo = gm()
-        # self.__sh, self.__sw = self.__screenInfo[0].height, self.__screenInfo[0].width
-        # self.__screen = pg.display.set_mode([self.__sw, self.__sh])
         self.__screen = pg.display.set_mode([600, 760])
         self.__Colors = {
             'BLACK':(0,0,0),
@@ -94,8 +90,8 @@ class Game:
         self.drawText('Next Block', 30, self.__Colors.get("WHITE"),(435, 130))
         self.drawText('Best Score : '+ str(self.__BestScore), 35, self.__Colors.get('WHITE'),(415, 290))
         self.drawText('Score : ' + str(self.Score), 35, self.__Colors.get('WHITE'),(415, 340))
-        self.drawText('NOW STATE : ', 40,self.__Colors.get('WHITE'),(60, 20))
-        self.drawText(self.motion,60,self.__Colors.get('WHITE'),(415, 50))
+        self.drawText('NOW STATE : ', 40,self.__Colors.get('WHITE'),(60, 15))
+        self.drawText(self.motion,40,self.__Colors.get('WHITE'),(260, 15))
         if self.img != None:
             self.__screen.blit(self.img,(700,100))
         self.__drawPrevBlock()
@@ -154,7 +150,7 @@ class Game:
     def __drawNewBlock(self):
         color = self.__B_Case.getColor()
         for x, y in self.__B_Case.getBlockPos():
-            pg.draw.rect(self.__screen, color, [50 + (x*33), 125 + (y*33),30,30])
+            pg.draw.rect(self.__screen, color, [50 + (x*33), 55 + (y*33),30,30])
     ##---------------------------------------------------------------------------------------------##
     ## 블럭 밑으로 이동
     ##---------------------------------------------------------------------------------------------##
@@ -357,6 +353,6 @@ class Game:
         self.__screenUpdate()
 
 if __name__ == "__main__":
-    from main import Main
-    main = Main(UsingMotion=False)
+    from newMain import Main
+    main = Main()
     main.run()

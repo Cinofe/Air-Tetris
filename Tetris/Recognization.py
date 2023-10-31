@@ -19,11 +19,11 @@ class Recognization:
         
         if results.multi_hand_landmarks:
             self.landmark = results.multi_hand_landmarks
-            # self.mp_drawing.draw_landmarks(
-            #     frame,
-            #     results.multi_hand_landmarks[0],
-            #     self.mp_hands.HAND_CONNECTIONS,
-            #     self.mp_drawing_style.get_default_hand_landmarks_style(),
-            #     self.mp_drawing_style.get_default_hand_connections_style()
-            # )
+            self.mp_drawing.draw_landmarks(
+                frame,
+                results.multi_hand_landmarks[0],
+                self.mp_hands.HAND_CONNECTIONS,
+                self.mp_drawing_style.get_default_hand_landmarks_style(),
+                self.mp_drawing_style.get_default_hand_connections_style()
+            )
         return frame, self.landmark

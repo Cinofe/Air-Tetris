@@ -15,16 +15,15 @@ class Main:
         self.value = -1
         self.playType = UsingMotion
         self.M = Menu()
-        self.value = self.M.run()
+        self.value, self.playType = self.M.run()
 
         if self.playType :
             self.Get = '1'
             self.Set = '2'
             self.stream = '3'
             self.motion = '4'
-            self.host = '210.125.31.101'
-            # self.host = '192.168.0.6'
-            self.port = 10000
+            self.host = '210.125.31.100'
+            self.port = 443
             self.Sock = socket(AF_INET, SOCK_STREAM)
             self.Sock.connect((self.host, self.port))
             self.StreamSock = None
@@ -166,64 +165,60 @@ class Main:
                     self.M = Menu()
                     self.value = self.M.run()
                     self.retry = True
-                    self.StreamSock.close()
+                    if self.playType:
+                        self.StreamSock.close()
                     _th.exit()
-                ## 모션으로 조정
-                # self.Get_motion()
-                # G.set_motion(self.motion.get(self.motion_value))
+                # 모션으로 조정
+                if self.playType:
+                    self.Get_motion()
+                    G.set_motion(self.motion.get(self.motion_value))
 
-                # if self.prev_motion == 1 and self.motion_value == 1:
-                #     if t.time() - mo_stime > mo_delay:
-                #         G.Move_Left()
-                #         mo_delay = 0.2
-                #         mo_stime = t.time()
-                # elif self.prev_motion == 2 and self.motion_value == 2:
-                #     if t.time() - mo_stime > mo_delay:
-                #         G.Move_Right()
-                #         mo_delay = 0.2
-                #         mo_stime = t.time()
-                # elif self.prev_motion == 3 or self.prev_motion == 4:
-                #     if self.motion_value == 3 or self.motion_value == 4:
-                #         continue
-                # else:
-                #     if self.motion_value == 1:
-                #         G.Move_Left()
-                #     elif self.motion_value == 2:
-                #         G.Move_Right()
-                #     elif self.motion_value == 3:
-                #         G.Turnning()
-                #     elif self.motion_value == 4:
-                #         G.instant_down()
-                #     mo_delay = 0.7
-                # self.prev_motion = self.motion_value
-                
-                ## 키입력 조정
-                for event in pg.event.get():
-                    if event.type == pg.QUIT:
-                        self.done = True
-                        self.retry = True
-                    if event.type == pg.KEYDOWN:
-                        if event.key == pg.K_ESCAPE:
-                            # self.done = True
-                            self.retry = True
-                        if event.key == pg.K_q :
-                            self.retry = True
-                            self.done = True
-                            sys.exit()
-                        if event.key == pg.K_UP:# or self.motion_value == 1:
-                            G.Turnning()
-                        if event.key == pg.K_DOWN:# or self.motion_value == 2:
-                            G.Move_Down()
-                        if event.key == pg.K_LEFT:# or self.motion_value == 3:
+                    if self.prev_motion == 1 and self.motion_value == 1:
+                        if t.time() - mo_stime > mo_delay:
                             G.Move_Left()
-                        if event.key == pg.K_RIGHT:# or self.motion_value == 4:
+                            mo_delay = 0.2
+                            mo_stime = t.time()
+                    elif self.prev_motion == 2 and self.motion_value == 2:
+                        if t.time() - mo_stime > mo_delay:
                             G.Move_Right()
-                        if event.key == pg.K_SPACE:# or self.motion_value == 5:
+                            mo_delay = 0.2
+                            mo_stime = t.time()
+                    elif self.prev_motion == 3 or self.prev_motion == 4:
+                        if self.motion_value == 3 or self.motion_value == 4:
+                            continue
+                    else:
+                        if self.motion_value == 1:
+                            G.Move_Left()
+                        elif self.motion_value == 2:
+                            G.Move_Right()
+                        elif self.motion_value == 3:
+                            G.Turnning()
+                        elif self.motion_value == 4:
                             G.instant_down()
-                        if event.key == pg.K_r:
-                            self.M = Menu()
-                            self.value = self.M.run()
+                        mo_delay = 0.7
+                    self.prev_motion = self.motion_value
+                ## 키입력 조정
+                elif not self.playType :
+                    for event in pg.event.get():
+                        if event.type == pg.QUIT:
+                            self.done = True
                             self.retry = True
+                        if event.type == pg.KEYDOWN:
+                            if event.key == pg.K_ESCAPE:
+                                # self.done = True
+                                self.retry = True
+                            if event.key == pg.K_r:
+                                self.retry = True
+                            if event.key == pg.K_UP:# or self.motion_value == 1:
+                                G.Turnning()
+                            if event.key == pg.K_DOWN:# or self.motion_value == 2:
+                                G.Move_Down()
+                            if event.key == pg.K_LEFT:# or self.motion_value == 3:
+                                G.Move_Left()
+                            if event.key == pg.K_RIGHT:# or self.motion_value == 4:
+                                G.Move_Right()
+                            if event.key == pg.K_SPACE:# or self.motion_value == 5:
+                                G.instant_down()
     ##--------------------------------------------------------------------------------------------##
     ##  프로그램 시작
     ##--------------------------------------------------------------------------------------------##
@@ -244,7 +239,6 @@ class Main:
             t2.join()
         else:
             self.start_Game()
-
 
 if __name__ == "__main__":
     main = Main(UsingMotion=False)
